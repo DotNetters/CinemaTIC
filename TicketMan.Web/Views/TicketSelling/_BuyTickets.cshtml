@@ -1,0 +1,17 @@
+﻿@model Session
+
+<hr />
+@using (Html.BeginForm("TicketsSelled", "TicketSelling", new { id = Model.Id }))
+{
+    <br />
+    <br />
+    <br />
+    @Html.Hidden("selectedSeats")
+    <div class="pull-left">
+        <h3><span id="seatCount">0</span>&nbsp;<span>@Literals.SelectedSeats</span></h3>
+    </div>
+    <div class="pull-right">
+        <input type="submit" class="btn btn-primary btn-lg" value="@Literals.Sell" />
+    </div>
+}
+<hr style="clear: both;" />

@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Session>
+<table class="table table-hover">
+    <tr>
+        <th class="col-md-11">
+            @Html.DisplayNameFor(model => model.TimeAndDate)
+        </th>
+        <th class="col-md-1">
+            <span class="pull-right">
+                @Literals.Actions
+            </span>
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeAndDate)
+            </td>
+            <td>
+                <div class="pull-right">
+                    <a href="@Url.Action("Index", new { id = item.Id })" class="btn btn-xs btn-default glyphicon glyphicon-eye-open"></a>
+                </div>
+            </td>
+        </tr>
+    }
+</table>

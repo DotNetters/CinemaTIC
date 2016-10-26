@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Seat>
+<br />
+<div style="clear: both">
+    <table class="table table-condensed table-hover">
+        <tr>
+            <th class="col-md-1">
+                @Html.DisplayNameFor(model => model.Row)
+            </th>
+            <th class="col-md-10">
+            </th>
+        </tr>
+        @foreach (var h_seat in Model.GroupBy(s => s.Row).Select(g => g.First()))
+        {
+        <tr>
+            <td>        
+                <span class="label label-primary">@Html.DisplayFor(m => h_seat.Row)</span>
+            </td>
+            <td>
+                @foreach (var seat in Model.Where(s => s.Row == h_seat.Row))
+                {
+                    if (seat.Reserved)
+                    {
+                        <button class="btn btn-xs btn-default" disabled>@Html.DisplayFor(m => seat.SeatNumber)</button>
+                    }
+                    else
+                    {
+                        <button id="@string.Format("{0}_{1}", seat.Row, seat.SeatNumber)" class="btn btn-xs btn-success" onclick="toggleSeat(@seat.Row, @seat.SeatNumber)">@Html.DisplayFor(m => seat.SeatNumber)</button>
+                    }
+                }
+            </td>
+        </tr>
+        }
+    </table>
+</div>

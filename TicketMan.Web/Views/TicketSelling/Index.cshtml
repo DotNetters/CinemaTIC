@@ -1,0 +1,39 @@
+﻿@model TicketSellingIndexViewModel
+
+@{
+    ViewBag.Title = @Literals.TicketSelling;
+}
+
+<h2>@Literals.TicketSelling</h2>
+<hr />
+
+@if (Model.AvailableSessions.Count() <= 0)
+{
+    <div class="alert alert-danger">@Literals.NoAvailableSessions</div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-5">
+            <!-- Sesiones disponibles -->
+            <h3>@Literals.AvailableSessions</h3>
+            @Html.Partial("_AvailableSessions", Model.AvailableSessions)
+            @Html.Partial("_BuyTickets", Model.SelectedSession)
+        </div>
+        <div class="col-md-7">
+            <!-- Butacas disponibles -->
+            <div>
+                <h3 class="pull-left">@Literals.AvailableSeats</h3>
+                <h3 class="pull-right">@Html.Partial("_SelectedSession", Model.SelectedSession)</h3>
+            </div>
+            @Html.Partial("_AvailableSeats", Model.AvailableSeats)
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () { setActiveMenuItem("TicketSellingMenuItem"); });
+    </script>
+}

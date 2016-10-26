@@ -1,0 +1,75 @@
+﻿@model TicketsSelledViewModel
+
+@{
+    ViewBag.Title = Literals.TicketsSelled;
+}
+
+<h2>@Literals.TicketsSelled</h2>
+<hr />
+@if (Model.Errors.Count() <= 0)
+{
+    foreach (var item in Model.Tickets)
+    {
+        <div class="well well-lg" style="background-image: url(../../Content/images/tickets256_BG.png); background-repeat: no-repeat; background-position: right;">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Literals.TicketId
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => item.Id)
+                </dd>
+
+                <dt>
+                    @Literals.Location
+                </dt>
+
+                <dd>
+                    @Literals.Entity_Seat_Row_DisplayName: @Html.DisplayFor(model => item.Seat.Row), @Literals.Entity_Seat_SeatNumber_DisplayName: @Html.DisplayFor(model => item.Seat.SeatNumber)
+                </dd>
+
+                <dt>
+                    @Literals.TicketPrice
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => item.Price) €
+                </dd>
+
+                <dt>
+                    @Literals.Session
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => item.Seat.Session.TimeAndDate)
+                </dd>
+
+                <dt>
+                    @Literals.SellDate
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => item.TimeAndDate)
+                </dd>
+
+            </dl>
+        </div>
+    }
+}
+else
+{
+    <div class="alert alert-danger">
+        @Messages.SellFailed
+        <ul>
+        @foreach (var error in Model.Errors)
+        {
+            <li>@error</li>
+        }
+        </ul>
+    </div>
+}
+<hr />
+<div>
+    @Html.ActionLink(Literals.Back, "Index", null, new { @class = "btn btn-sm btn-default" })
+</div>
+

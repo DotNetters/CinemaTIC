@@ -1,0 +1,21 @@
+﻿@model Session
+
+@{
+    ViewBag.Title = Literals.SessionEdit;
+}
+
+<h2>@Literals.SessionEdit</h2>
+<hr />
+
+@Html.Partial("_EditForm")
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/globalize")
+    @Scripts.Render("~/bundles/siteval")
+
+    <script type="text/javascript">
+            $(function () { setActiveMenuItem("SessionsMenuItem"); });
+    </script>
+}

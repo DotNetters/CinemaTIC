@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = Literals.Home;
+}
+
+<div class="jumbotron" style="background-image: url(Content/images/tickets256_BG.png); background-repeat: no-repeat; background-position: left;">
+    <h1>@Literals.AppTitle</h1>
+    <p class="lead">@Literals.AppSummary</p>
+    <p>
+        @Html.ActionLink(Literals.Sell, "Index", "TicketSelling", null, new { @class="btn btn-primary btn-large" })
+    </p>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+            $(function () { setActiveMenuItem("HomeMenuItem"); });
+    </script>
+}
