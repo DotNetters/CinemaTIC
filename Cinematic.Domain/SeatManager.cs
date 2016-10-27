@@ -1,4 +1,4 @@
-﻿using Cinematic.Core.Contracts;
+﻿using Cinematic.Domain.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Cinematic.Resources;
 using Cinematic.Extensions;
 
-namespace Cinematic.Core
+namespace Cinematic.Domain
 {
     /// <summary>
     /// Servicio que gestiona la disponibilidad de butacas y su reserva
@@ -34,16 +34,16 @@ namespace Cinematic.Core
                 throw new ArgumentNullException("session");
 
             if (row > Session.NUMBER_OF_ROWS)
-                throw new TicketManCoreException(Messages.RowNumberIsAboveMaxAllowed);
+                throw new CinematicException(Messages.RowNumberIsAboveMaxAllowed);
 
             if (row < 1)
-                throw new TicketManCoreException(Messages.RowNumberIsBelowMinAllowed);
+                throw new CinematicException(Messages.RowNumberIsBelowMinAllowed);
 
             if (seatNumber > Session.NUMBER_OF_SEATS)
-                throw new TicketManCoreException(Messages.SeatNumberIsAboveMaxAllowed);
+                throw new CinematicException(Messages.SeatNumberIsAboveMaxAllowed);
 
             if (seatNumber < 1)
-                throw new TicketManCoreException(Messages.SeatNumberIsBelowMinAllowed);
+                throw new CinematicException(Messages.SeatNumberIsBelowMinAllowed);
 
             var q = from s in _dataContext.Seats
                     where
@@ -117,7 +117,7 @@ namespace Cinematic.Core
                 .Where(s => s.Row == seat.Row && s.SeatNumber == seat.SeatNumber).SingleOrDefault();
 
             if (reservedSeat != null)
-                throw new TicketManCoreException(Messages.SeatIsPreviouslyReserved);
+                throw new CinematicException(Messages.SeatIsPreviouslyReserved);
 
             seat.Reserved = true;
 
@@ -137,7 +137,7 @@ namespace Cinematic.Core
                 .Where(s => s.Row == seat.Row && s.SeatNumber == seat.SeatNumber).SingleOrDefault();
 
             if (reservedSeat == null)
-                throw new TicketManCoreException(Messages.SeatIsNotReserved);
+                throw new CinematicException(Messages.SeatIsNotReserved);
 
             seat.Reserved = false;
 

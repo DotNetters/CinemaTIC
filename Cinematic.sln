@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinematic.DAL", "Cinematic.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinematic.Web", "Cinematic.Web\Cinematic.Web.csproj", "{718C6F79-A449-4363-A155-6B19D70BAA0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinematic.Domain.Tests", "Cinematic.Domain.Tests\Cinematic.Domain.Tests.csproj", "{DCC3A8C5-A60D-4792-AF67-A7F957C4BE68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{718C6F79-A449-4363-A155-6B19D70BAA0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{718C6F79-A449-4363-A155-6B19D70BAA0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{718C6F79-A449-4363-A155-6B19D70BAA0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCC3A8C5-A60D-4792-AF67-A7F957C4BE68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCC3A8C5-A60D-4792-AF67-A7F957C4BE68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCC3A8C5-A60D-4792-AF67-A7F957C4BE68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCC3A8C5-A60D-4792-AF67-A7F957C4BE68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-﻿using Cinematic.Core.Contracts;
+﻿using Cinematic.Domain.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using Cinematic.Resources;
 
-namespace Cinematic.Core
+namespace Cinematic.Domain
 {
     /// <summary>
     /// Representa una sesión para la que se venden <see cref="Ticket">tickets</see>  

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cinematic.Core.Contracts
+namespace Cinematic.Domain.Contracts
 {
     /// <summary>
     /// Servicio que gestiona las <see cref="Session">sesiones</see>

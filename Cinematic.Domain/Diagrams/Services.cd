@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="Kash.Cinematic.Core.SeatManager" BaseTypeListCollapsed="true">
+  <Class Name="Kash.Cinematic.Domain.SeatManager" BaseTypeListCollapsed="true">
     <Position X="7" Y="2.5" Width="3.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAQAAQAIAAAAAAAEA=</HashCode>
@@ -8,7 +8,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Kash.Cinematic.Core.SessionManager" BaseTypeListCollapsed="true">
+  <Class Name="Kash.Cinematic.Domain.SessionManager" BaseTypeListCollapsed="true">
     <Position X="0.5" Y="7.25" Width="3.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAABAAAAIAAAAAAAAAAAAAAAAYAAAAAAA=</HashCode>
@@ -16,7 +16,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Kash.Cinematic.Core.TicketManager" BaseTypeListCollapsed="true">
+  <Class Name="Kash.Cinematic.Domain.TicketManager" BaseTypeListCollapsed="true">
     <Position X="0.5" Y="2.5" Width="6.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAIAAAAAgAAAAAQAAAAABAAAAAAAE=</HashCode>
@@ -24,7 +24,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Kash.Cinematic.Core.PriceManager">
+  <Class Name="Kash.Cinematic.Domain.PriceManager">
     <Position X="4.75" Y="7.25" Width="4.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -32,28 +32,28 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Interface Name="Kash.Cinematic.Core.Contracts.IPriceManager">
+  <Interface Name="Kash.Cinematic.Domain.Contracts.IPriceManager">
     <Position X="4.75" Y="5.25" Width="3.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Contracts\IPriceManager.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Kash.Cinematic.Core.Contracts.ISeatManager">
+  <Interface Name="Kash.Cinematic.Domain.Contracts.ISeatManager">
     <Position X="7" Y="0.5" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAQAIAAAAAAAEA=</HashCode>
       <FileName>Contracts\ISeatManager.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Kash.Cinematic.Core.Contracts.ITicketManager">
+  <Interface Name="Kash.Cinematic.Domain.Contracts.ITicketManager">
     <Position X="0.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
       <FileName>Contracts\ITicketManager.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Kash.Cinematic.Core.Contracts.ISessionManager">
+  <Interface Name="Kash.Cinematic.Domain.Contracts.ISessionManager">
     <Position X="0.5" Y="5.25" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAABAAAAIAAAAAAAAAAAAAAAAYAAAAAAA=</HashCode>

@@ -1,5 +1,5 @@
-﻿using Cinematic.Core;
-using Cinematic.Core.Contracts;
+﻿using Cinematic.Domain;
+using Cinematic.Domain.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

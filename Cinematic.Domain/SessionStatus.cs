@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Cinematic.Resources;
 
-namespace Cinematic.Core
+namespace Cinematic.Domain
 {
     /// <summary>
     /// Estados en los que se puede encontrar una <see cref="Session">sesión</see>

@@ -1,11 +1,11 @@
-﻿using Cinematic.Core.Contracts;
+﻿using Cinematic.Domain.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cinematic.Core
+namespace Cinematic.Domain
 {
     /// <summary>
     /// Servicio que gestiona las sesiones para las que se ponen <see cref="Ticket">tickets</see> a la venta

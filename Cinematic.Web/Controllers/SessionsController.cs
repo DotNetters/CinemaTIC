@@ -6,8 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Cinematic.Core;
-using Cinematic.Core.Contracts;
+using Cinematic.Domain;
+using Cinematic.Domain.Contracts;
 using Cinematic.Web.Models;
 
 namespace Cinematic.Web.Controllers

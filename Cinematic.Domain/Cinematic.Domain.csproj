@@ -66,7 +66,7 @@
     <Compile Include="SessionStatus.cs" />
     <Compile Include="Ticket.cs" />
     <Compile Include="TicketManager.cs" />
-    <Compile Include="TicketManCoreException.cs" />
+    <Compile Include="CinematicException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Diagrams\Entities.cd" />

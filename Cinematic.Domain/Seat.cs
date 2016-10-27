@@ -1,4 +1,4 @@
-﻿using Cinematic.Core.Contracts;
+﻿using Cinematic.Domain.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Cinematic.Resources;
 
-namespace Cinematic.Core
+namespace Cinematic.Domain
 {
     /// <summary>
     /// Representa una butaca en el sistema

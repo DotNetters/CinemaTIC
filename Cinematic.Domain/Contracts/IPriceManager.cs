@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cinematic.Core.Contracts
+namespace Cinematic.Domain.Contracts
 {
     /// <summary>
     /// Servicio que gestiona los precios de los <see cref="Ticket">tickets</see>

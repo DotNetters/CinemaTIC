@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Cinematic.Core;
-using Cinematic.Core.Contracts;
+using Cinematic.Domain;
+using Cinematic.Domain.Contracts;
 using Cinematic.Resources;
 using Cinematic.Web.Models;
 

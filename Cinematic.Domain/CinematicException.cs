@@ -5,22 +5,22 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cinematic.Core
+namespace Cinematic.Domain
 {
     /// <summary>
     /// Excepción general de la capa de dominio / aplicación
     /// </summary>
     [Serializable]
-    public class TicketManCoreException : ApplicationException
+    public class CinematicException : ApplicationException
     {
         /// <inheritdoc />
-        public TicketManCoreException() { }
+        public CinematicException() { }
         /// <inheritdoc />
-        public TicketManCoreException(string message) : base(message) { }
+        public CinematicException(string message) : base(message) { }
         /// <inheritdoc />
-        public TicketManCoreException(string message, Exception inner) : base(message, inner) { }
+        public CinematicException(string message, Exception inner) : base(message, inner) { }
         /// <inheritdoc />
-        protected TicketManCoreException(
+        protected CinematicException(
           SerializationInfo info,
           StreamingContext context)
             : base(info, context) { }

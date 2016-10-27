@@ -1,5 +1,5 @@
-﻿using Cinematic.Core;
-using Cinematic.Core.Contracts;
+﻿using Cinematic.Domain;
+using Cinematic.Domain.Contracts;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using System;

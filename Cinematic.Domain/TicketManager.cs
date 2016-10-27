@@ -1,4 +1,4 @@
-﻿using Cinematic.Core.Contracts;
+﻿using Cinematic.Domain.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cinematic.Resources;
 
-namespace Cinematic.Core
+namespace Cinematic.Domain
 {
     /// <summary>
     /// Servicio que gestiona la venta de tickets
@@ -47,10 +47,10 @@ namespace Cinematic.Core
                 throw new ArgumentNullException("seat.Session");
 
             if (seat.Session.Status == SessionStatus.Closed)
-                throw new TicketManCoreException(Messages.SessionIsClosedNoTicketsAvailable);
+                throw new CinematicException(Messages.SessionIsClosedNoTicketsAvailable);
 
             if (seat.Session.Status == SessionStatus.Cancelled)
-                throw new TicketManCoreException(Messages.SessionIsCancelledNoTicketsAvailable);
+                throw new CinematicException(Messages.SessionIsCancelledNoTicketsAvailable);
 
             var allocatedSeat = _seatManager.AllocateSeat(seat);
 
@@ -79,7 +79,7 @@ namespace Cinematic.Core
                 throw new ArgumentNullException("ticket.Seat.Session");
 
             if (ticket.Seat.Session.Status == SessionStatus.Closed)
-                throw new TicketManCoreException(Messages.SessionIsClosedCannotReturnTickets);
+                throw new CinematicException(Messages.SessionIsClosedCannotReturnTickets);
 
             _seatManager.DeAllocateSeat(ticket.Seat);
 
