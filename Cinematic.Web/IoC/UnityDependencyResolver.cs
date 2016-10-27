@@ -1,4 +1,5 @@
-﻿using Cinematic.Domain;
+﻿using Cinematic.DAL;
+using Cinematic.Domain;
 using Cinematic.Domain.Contracts;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
@@ -16,7 +17,17 @@ namespace Cinematic.Web.IoC
 
         public UnityDependencyResolver()
         {
-            container = new UnityContainer().LoadConfiguration();
+            // Configuración mediante XML
+            //container = new UnityContainer().LoadConfiguration();
+
+            // Configuración mediante código
+            container = new UnityContainer();
+
+            container.RegisterType<IDataContext, CinematicEFDataContext>(new PerRequestLifetimeManager());
+            container.RegisterType<ISeatManager, SeatManager>();
+            container.RegisterType<ISessionManager, SessionManager>();
+            container.RegisterType<IPriceManager, PriceManager>();
+            container.RegisterType<ITicketManager, TicketManager>();
         }
 
         public object GetService(Type serviceType)

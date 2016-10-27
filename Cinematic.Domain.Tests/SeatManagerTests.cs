@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Moq;
 using Cinematic.Domain.Contracts;
 using FluentAssertions;
+using Cinematic.Resources;
 
 namespace Cinematic.Domain.Tests
 {
@@ -25,18 +26,21 @@ namespace Cinematic.Domain.Tests
         {
             _closedSession = new Session()
             {
+                Id = 1,
                 Status = SessionStatus.Closed,
                 // Lunes 27 de octubre de 2014, 16:00
                 TimeAndDate = new DateTime(2014, 10, 27, 16, 00, 0)
             };
             _openSession = new Session()
             {
+                Id = 2,
                 Status = SessionStatus.Open,
                 // Lunes 27 de octubre de 2014, 18:30
                 TimeAndDate = new DateTime(2014, 10, 27, 18, 30, 0)
             };
             _cancelledSession = new Session()
             {
+                Id = 3,
                 Status = SessionStatus.Cancelled,
                 // Lunes 27 de octubre de 2014, 21:00
                 TimeAndDate = new DateTime(2014, 10, 27, 21, 00, 0)
@@ -64,160 +68,160 @@ namespace Cinematic.Domain.Tests
 
         #endregion
 
+        #region Common Mocking
+
+        private SeatManager GetSeatManagerWithSeats()
+        {
+            var dataContextMock = new Mock<IDataContext>();
+            dataContextMock.Setup(m => m.Seats).Returns(_seats);
+            var target = new SeatManager(dataContextMock.Object);
+
+            return target;
+        }
+
+        #endregion
+
         #region GetSeat tests
 
         [Test]
         public void SeatManager_GetSeatRightReservedTest()
         {
             //Arrange
-            var dataContextMock = new Mock<IDataContext>();
-
-            dataContextMock
-                .Setup(m => m.Get<Seat>(It.IsAny<object[]>()))
-                .Returns(_seats.ToArray());
-
-            var target = new SeatManager(dataContextMock.Object);
+            var target = GetSeatManagerWithSeats();
 
             //Act
-            Seat result = target.GetSeat(_openSession, 9, 2);
+            var result = target.GetSeat(_openSession, 9, 2);
 
             //Assert
-            Assert.AreEqual(_openSession, result.Session);
-            Assert.AreEqual(9, result.Row);
-            Assert.AreEqual(2, result.SeatNumber);
-            Assert.IsTrue(result.Reserved);
+            result.Session.ShouldBeEquivalentTo(_openSession);
+            result.Row.Should().Be(9);
+            result.SeatNumber.Should().Be(2);
+            result.Reserved.Should().BeTrue();
         }
 
         [Test]
         public void SeatManager_GetSeatRightNotReservedTest()
         {
             //Arrange
-            var dataContextMock = new Mock<IDataContext>();
-
-            dataContextMock
-                .Setup(m => m.Get<Seat>(It.IsAny<object[]>()))
-                .Returns(_seats.ToArray());
-
-            var target = new SeatManager(dataContextMock.Object);
+            var target = GetSeatManagerWithSeats();
 
             //Act
-            Seat result = target.GetSeat(_openSession, 11, 12);
+            var result = target.GetSeat(_openSession, 11, 12);
 
             //Assert
-            Assert.AreEqual(_openSession, result.Session);
-            Assert.AreEqual(11, result.Row);
-            Assert.AreEqual(12, result.SeatNumber);
-            Assert.IsFalse(result.Reserved);
+            result.Session.ShouldBeEquivalentTo(_openSession);
+            result.Row.Should().Be(11);
+            result.SeatNumber.Should().Be(12);
+            result.Reserved.Should().BeFalse();
         }
 
         [Test]
         public void SeatManager_GetSeatRowAboveMaxTest()
         {
             //Arrange
-            var dataContextMock = new Mock<IDataContext>();
-
-            dataContextMock
-                .Setup(m => m.Get<Seat>(It.IsAny<object[]>()))
-                .Returns(_seats.ToArray());
-
-            var target = new SeatManager(dataContextMock.Object);
+            var target = GetSeatManagerWithSeats();
 
             //Act
             Action action = () =>
             {
-                Seat result = target.GetSeat(_openSession, Session.NUMBER_OF_ROWS + 1, 1);
+                target.GetSeat(_openSession, Session.NUMBER_OF_ROWS + 1, 1);
             };
 
             //Assert
-            action.ShouldThrow<CinematicException>();
+            action.ShouldThrow<CinematicException>()
+                .WithMessage(Messages.RowNumberIsAboveMaxAllowed);
         }
 
-        //[Test]
-        //[ExpectedException(typeof(TicketManCoreException))]
-        //public void SeatManager_GetSeatRowBelowMinTest()
-        //{
-        //    //Arrange
-        //    var dataContext = new StubIDataContext()
-        //    {
-        //        SeatsGet = () => { return _seats; }
-        //    };
+        [Test]
+        public void SeatManager_GetSeatRowBelowMinTest()
+        {
+            //Arrange
+            var target = GetSeatManagerWithSeats();
 
-        //    var target = new SeatManager(dataContext);
+            //Act
+            Action action = () =>
+            {
+                target.GetSeat(_openSession, 0, 1);
+            };
 
-        //    //Act
-        //    Seat result = target.GetSeat(_openSession, 0, 1);
-        //}
+            //Assert
+            action.ShouldThrow<CinematicException>()
+                .WithMessage(Messages.RowNumberIsBelowMinAllowed);
+        }
 
-        //[Test]
-        //[ExpectedException(typeof(TicketManCoreException))]
-        //public void SeatManager_GetSeatSeatNumberAboveMaxTest()
-        //{
-        //    //Arrange
-        //    var dataContext = new StubIDataContext()
-        //    {
-        //        SeatsGet = () => { return _seats; }
-        //    };
+        [Test]
+        public void SeatManager_GetSeatSeatNumberAboveMaxTest()
+        {
+            //Arrange
+            var target = GetSeatManagerWithSeats();
 
-        //    var target = new SeatManager(dataContext);
+            //Act
+            Action action = () =>
+            {
+                target.GetSeat(_openSession, 1, Session.NUMBER_OF_SEATS + 1);
+            };
 
-        //    //Act
-        //    Seat result = target.GetSeat(_openSession, 1, Session.NUMBER_OF_SEATS + 1);
-        //}
+            //Assert
+            action.ShouldThrow<CinematicException>()
+                .WithMessage(Messages.SeatNumberIsAboveMaxAllowed);
+        }
 
-        //[Test]
-        //[ExpectedException(typeof(TicketManCoreException))]
-        //public void SeatManager_GetSeatSeatNumberBelowMinTest()
-        //{
-        //    //Arrange
-        //    var dataContext = new StubIDataContext()
-        //    {
-        //        SeatsGet = () => { return _seats; }
-        //    };
+        [Test]
+        public void SeatManager_GetSeatSeatNumberBelowMinTest()
+        {
+            //Arrange
+            var target = GetSeatManagerWithSeats();
 
-        //    var target = new SeatManager(dataContext);
+            //Act
+            Action action = () =>
+            {
+                target.GetSeat(_openSession, 1, 0);
+            };
 
-        //    //Act
-        //    Seat result = target.GetSeat(_openSession, 1, 0);
-        //}
+            //Assert
+            action.ShouldThrow<CinematicException>()
+                .WithMessage(Messages.SeatNumberIsBelowMinAllowed);
+        }
 
-        //[Test]
-        //[ExpectedException(typeof(ArgumentNullException))]
-        //public void SeatManager_GetSeatSessionParamNullExceptionTest()
-        //{
-        //    //Arrange
-        //    var dataContext = new StubIDataContext();
-        //    var target = new SeatManager(dataContext);
+        [Test]
+        public void SeatManager_GetSeatSessionParamNullExceptionTest()
+        {
+            //Arrange
+            var dataContext = Mock.Of<IDataContext>();
+            var target = new SeatManager(dataContext);
 
-        //    //Act
-        //    target.GetSeat(null, 1, 1);
-        //}
+            //Act
+            Action action = () =>
+            {
+                target.GetSeat(null, 1, 1);
+            };
 
-        //#endregion
+            //Assert
+            action.ShouldThrow<ArgumentNullException>()
+                .WithMessage(new ArgumentNullException("session").Message);
+        }
 
-        //#region GetAvailableSeats
+        #endregion
+
+        #region GetAvailableSeats
 
         //[Test]
         //public void SeatManager_GetAvailableSeatsOpenSessionRightTest()
         //{
         //    //Arrange
-        //    var dataContext = new StubIDataContext()
-        //    {
-        //        SeatsGet = () => { return _seats; }
-        //    };
-
-        //    var target = new SeatManager(dataContext);
+        //    var target = GetSeatManagerWithSeats();
 
         //    //Act
         //    var result = target.GetAvailableSeats(_openSession);
 
         //    //Assert
-        //    Assert.AreEqual(
-        //        (Session.NUMBER_OF_ROWS * Session.NUMBER_OF_SEATS) - (_seats.Where(s => s.Session == _openSession).Count()),
-        //        (result as ICollection<Seat>).Count);
-        //    foreach (var seat in result)
-        //    {
-        //        Assert.IsFalse((_seats as ICollection<Seat>).Contains(seat));
-        //    }
+        //    result.Count()
+        //        .Should()
+        //        .Be(
+        //            (Session.NUMBER_OF_ROWS * Session.NUMBER_OF_SEATS) -
+        //            (_seats.Where(s => s.Session == _openSession).Count()));
+
+        //    //result.Should().BeEquivalentTo(_seats);
         //}
 
         //[Test]

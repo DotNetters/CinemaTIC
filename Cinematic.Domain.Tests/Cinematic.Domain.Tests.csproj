@@ -84,6 +84,13 @@
       <Project>{be65b5f9-17b7-4148-832e-3c83ecc11ba2}</Project>
       <Name>Cinematic.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cinematic.Resources\Cinematic.Resources.csproj">
+      <Project>{7cc1edb7-9375-4ca6-b2be-12232a8bc2de}</Project>
+      <Name>Cinematic.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
