@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
-namespace TicketMan.Web.Models
+namespace Cinematic.Web.Models
 {
     public class IndexViewModel
     {

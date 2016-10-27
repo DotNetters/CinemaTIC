@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TicketMan.Core.Contracts
+namespace Cinematic.Core.Contracts
 {
     /// <summary>
     /// Servicio que gestiona la disponibilidad de butacas y su reserva

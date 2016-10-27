@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using TicketMan.Core;
-using TicketMan.Core.Contracts;
-using TicketMan.Resources;
-using TicketMan.Web.Models;
+using Cinematic.Core;
+using Cinematic.Core.Contracts;
+using Cinematic.Resources;
+using Cinematic.Web.Models;
 
-namespace TicketMan.Web.Controllers
+namespace Cinematic.Web.Controllers
 {
     public class TicketSellingController : Controller
     {

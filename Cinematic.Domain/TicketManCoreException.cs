@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TicketMan.Core
+namespace Cinematic.Core
 {
     /// <summary>
     /// Excepción general de la capa de dominio / aplicación

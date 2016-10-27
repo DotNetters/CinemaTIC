@@ -1,13 +1,13 @@
-﻿using TicketMan.Core.Contracts;
+﻿using Cinematic.Core.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
-using TicketMan.Resources;
+using Cinematic.Resources;
 
-namespace TicketMan.Core
+namespace Cinematic.Core
 {
     /// <summary>
     /// Representa una sesión para la que se venden <see cref="Ticket">tickets</see>  

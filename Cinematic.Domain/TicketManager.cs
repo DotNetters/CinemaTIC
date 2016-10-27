@@ -1,12 +1,12 @@
-﻿using TicketMan.Core.Contracts;
+﻿using Cinematic.Core.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TicketMan.Resources;
+using Cinematic.Resources;
 
-namespace TicketMan.Core
+namespace Cinematic.Core
 {
     /// <summary>
     /// Servicio que gestiona la venta de tickets

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using TicketMan.Resources;
+using Cinematic.Resources;
 
-namespace TicketMan.Core
+namespace Cinematic.Core
 {
     /// <summary>
     /// Estados en los que se puede encontrar una <see cref="Session">sesión</see>

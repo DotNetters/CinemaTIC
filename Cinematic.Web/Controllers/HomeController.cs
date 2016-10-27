@@ -1,5 +1,5 @@
-﻿using TicketMan.Core;
-using TicketMan.Core.Contracts;
+﻿using Cinematic.Core;
+using Cinematic.Core.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using System.Threading;
 using System.Globalization;
 
-namespace TicketMan.Web.Controllers
+namespace Cinematic.Web.Controllers
 {
     public class HomeController : Controller
     {

@@ -1,11 +1,11 @@
-﻿using TicketMan.Core.Contracts;
+﻿using Cinematic.Core.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TicketMan.Core
+namespace Cinematic.Core
 {
     /// <summary>
     /// Servicio que gestiona las sesiones para las que se ponen <see cref="Ticket">tickets</see> a la venta

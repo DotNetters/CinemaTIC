@@ -10,9 +10,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using TicketMan.Web.Models;
+using Cinematic.Web.Models;
 
-namespace TicketMan.Web
+namespace Cinematic.Web
 {
     public class EmailService : IIdentityMessageService
     {

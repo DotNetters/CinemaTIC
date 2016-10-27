@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TicketMan.Core.Contracts
+namespace Cinematic.Core.Contracts
 {
     /// <summary>
     /// Servicio que gestiona la venta de tickets

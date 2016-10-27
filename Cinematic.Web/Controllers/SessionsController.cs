@@ -6,11 +6,11 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using TicketMan.Core;
-using TicketMan.Core.Contracts;
-using TicketMan.Web.Models;
+using Cinematic.Core;
+using Cinematic.Core.Contracts;
+using Cinematic.Web.Models;
 
-namespace TicketMan.Web.Controllers
+namespace Cinematic.Web.Controllers
 {
     public class SessionsController : Controller
     {

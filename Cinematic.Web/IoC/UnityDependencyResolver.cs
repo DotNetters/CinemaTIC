@@ -1,5 +1,5 @@
-﻿using TicketMan.Core;
-using TicketMan.Core.Contracts;
+﻿using Cinematic.Core;
+using Cinematic.Core.Contracts;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace TicketMan.Web.IoC
+namespace Cinematic.Web.IoC
 {
     public class UnityDependencyResolver : IDependencyResolver
     {

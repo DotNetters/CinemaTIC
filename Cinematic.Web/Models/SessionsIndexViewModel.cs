@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using TicketMan.Core;
+using Cinematic.Core;
 
-namespace TicketMan.Web.Models
+namespace Cinematic.Web.Models
 {
     public class SessionsIndexViewModel
     {

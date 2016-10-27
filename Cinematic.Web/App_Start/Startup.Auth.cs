@@ -5,9 +5,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using TicketMan.Web.Models;
+using Cinematic.Web.Models;
 
-namespace TicketMan.Web
+namespace Cinematic.Web
 {
     public partial class Startup
     {

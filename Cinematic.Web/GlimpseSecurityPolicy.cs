@@ -4,7 +4,7 @@
 using Glimpse.AspNet.Extensions;
 using Glimpse.Core.Extensibility;
 
-namespace TicketMan.Web
+namespace Cinematic.Web
 {
     public class GlimpseSecurityPolicy:IRuntimePolicy
     {

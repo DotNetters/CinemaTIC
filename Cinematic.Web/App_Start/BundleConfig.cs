@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace TicketMan.Web
+namespace Cinematic.Web
 {
     public class BundleConfig
     {

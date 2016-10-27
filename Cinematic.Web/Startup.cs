@@ -1,8 +1,8 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(TicketMan.Web.Startup))]
-namespace TicketMan.Web
+[assembly: OwinStartupAttribute(typeof(Cinematic.Web.Startup))]
+namespace Cinematic.Web
 {
     public partial class Startup
     {

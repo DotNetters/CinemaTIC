@@ -6,16 +6,16 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using TicketMan.Core;
-using TicketMan.Core.Contracts;
+using Cinematic.Core;
+using Cinematic.Core.Contracts;
 
 namespace Cinematic.DAL
 {
-    public class TicketManEFDataContext : DbContext, IDataContext
+    public class CinematicEFDataContext : DbContext, IDataContext
     {
         #region Query expansion
 
-        private class DbIncluder : TicketMan.Extensions.QueryableExtensions.IIncluder
+        private class DbIncluder : Cinematic.Extensions.QueryableExtensions.IIncluder
         {
             public IQueryable<T> Include<T, TProperty>(IQueryable<T> source, Expression<Func<T, TProperty>> path)
                 where T : class
@@ -31,9 +31,9 @@ namespace Cinematic.DAL
         /// <summary>
         /// Static constructor. Buildup the DbIncluder in the QueryableExtensions class
         /// </summary>
-        static TicketManEFDataContext()
+        static CinematicEFDataContext()
         {
-            TicketMan.Extensions.QueryableExtensions.Includer = new DbIncluder();
+            Cinematic.Extensions.QueryableExtensions.Includer = new DbIncluder();
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Cinematic.DAL
         /// or connection string for the database to which a connection will be made.
         /// </summary>
         /// <param name="nameOrConnectionString">Either the database name or a connection string.</param>
-        public TicketManEFDataContext() : base("TicketMan") { } 
+        public CinematicEFDataContext() : base("Cinematic") { } 
 
         #endregion
 

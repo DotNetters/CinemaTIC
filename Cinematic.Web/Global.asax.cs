@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using TicketMan.Web.IoC;
+using Cinematic.Web.IoC;
 
-namespace TicketMan.Web
+namespace Cinematic.Web
 {
     public class MvcApplication : System.Web.HttpApplication
     {

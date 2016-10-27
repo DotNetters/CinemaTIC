@@ -1,11 +1,11 @@
-﻿using TicketMan.Core.Contracts;
+﻿using Cinematic.Core.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TicketMan.Core
+namespace Cinematic.Core
 {
     /// <summary>
     /// Ticket o entrada que se vende y representa la reserva de una butaca

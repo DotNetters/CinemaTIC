@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="Kash.TicketMan.Core.Seat" BaseTypeListCollapsed="true">
+  <Class Name="Kash.Cinematic.Core.Seat" BaseTypeListCollapsed="true">
     <Position X="4.75" Y="0.5" Width="2.25" />
-    <AssociationLine Name="Session" Type="Kash.TicketMan.Core.Session">
+    <AssociationLine Name="Session" Type="Kash.Cinematic.Core.Session">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="-0.815" Y="0.162" />
       </MemberNameLabel>
@@ -16,7 +16,7 @@
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Kash.TicketMan.Core.Ticket" BaseTypeListCollapsed="true">
+  <Class Name="Kash.Cinematic.Core.Ticket" BaseTypeListCollapsed="true">
     <Position X="0.5" Y="0.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAQAAAAAAAAAAQAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -27,7 +27,7 @@
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Kash.TicketMan.Core.Session" BaseTypeListCollapsed="true">
+  <Class Name="Kash.Cinematic.Core.Session" BaseTypeListCollapsed="true">
     <Position X="4.25" Y="3" Width="3" />
     <TypeIdentifier>
       <HashCode>AAACAAAEAAAAAAAAAAAAAAEAAAAAAAAAIAAAAIAAAAA=</HashCode>
@@ -38,14 +38,14 @@
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
-  <Interface Name="Kash.TicketMan.Core.Contracts.IBusinessEntity">
+  <Interface Name="Kash.Cinematic.Core.Contracts.IBusinessEntity">
     <Position X="1" Y="2.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Contracts\IBusinessEntity.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Enum Name="Kash.TicketMan.Core.SessionStatus">
+  <Enum Name="Kash.Cinematic.Core.SessionStatus">
     <Position X="8.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAIAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>

@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TicketManEFDataContext.cs" />
+    <Compile Include="CinematicEFDataContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

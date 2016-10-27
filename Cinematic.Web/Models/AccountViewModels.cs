@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace TicketMan.Web.Models
+namespace Cinematic.Web.Models
 {
     public class ExternalLoginConfirmationViewModel
     {

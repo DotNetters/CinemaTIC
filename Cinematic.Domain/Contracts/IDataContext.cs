@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 
-namespace TicketMan.Core.Contracts
+namespace Cinematic.Core.Contracts
 {
     /// <summary>
     /// Data context. 
