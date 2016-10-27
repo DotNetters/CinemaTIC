@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using TicketMan.Core;
 using TicketMan.Core.Contracts;
-using TicketMan.DAL;
 using TicketMan.Web.Models;
 
 namespace TicketMan.Web.Controllers

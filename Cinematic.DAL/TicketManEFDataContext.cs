@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using TicketMan.Core;
 using TicketMan.Core.Contracts;
 
-namespace TicketMan.DAL
+namespace Cinematic.DAL
 {
     public class TicketManEFDataContext : DbContext, IDataContext
     {

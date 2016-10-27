@@ -74,9 +74,9 @@
     <None Include="Diagrams\Services.cd" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TicketMan.Resources\TicketMan.Resources.csproj">
+    <ProjectReference Include="..\Cinematic.Resources\Cinematic.Resources.csproj">
       <Project>{7cc1edb7-9375-4ca6-b2be-12232a8bc2de}</Project>
-      <Name>TicketMan.Resources</Name>
+      <Name>Cinematic.Resources</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

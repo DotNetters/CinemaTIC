@@ -7,8 +7,8 @@
     <ProjectGuid>{3BD970AA-718D-435B-A4A3-B18E50557705}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TicketMan.DAL</RootNamespace>
-    <AssemblyName>TicketMan.DAL</AssemblyName>
+    <RootNamespace>Cinematic.DAL</RootNamespace>
+    <AssemblyName>Cinematic.DAL</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>
@@ -66,9 +66,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TicketMan.Core\TicketMan.Core.csproj">
+    <ProjectReference Include="..\Cinematic.Domain\Cinematic.Domain.csproj">
       <Project>{be65b5f9-17b7-4148-832e-3c83ecc11ba2}</Project>
-      <Name>TicketMan.Core</Name>
+      <Name>Cinematic.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

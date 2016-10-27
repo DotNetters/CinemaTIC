@@ -693,17 +693,17 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TicketMan.Core\TicketMan.Core.csproj">
-      <Project>{be65b5f9-17b7-4148-832e-3c83ecc11ba2}</Project>
-      <Name>TicketMan.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TicketMan.DAL\TicketMan.DAL.csproj">
+    <ProjectReference Include="..\Cinematic.DAL\Cinematic.DAL.csproj">
       <Project>{3bd970aa-718d-435b-a4a3-b18e50557705}</Project>
-      <Name>TicketMan.DAL</Name>
+      <Name>Cinematic.DAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TicketMan.Resources\TicketMan.Resources.csproj">
+    <ProjectReference Include="..\Cinematic.Domain\Cinematic.Domain.csproj">
+      <Project>{be65b5f9-17b7-4148-832e-3c83ecc11ba2}</Project>
+      <Name>Cinematic.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cinematic.Resources\Cinematic.Resources.csproj">
       <Project>{7cc1edb7-9375-4ca6-b2be-12232a8bc2de}</Project>
-      <Name>TicketMan.Resources</Name>
+      <Name>Cinematic.Resources</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
