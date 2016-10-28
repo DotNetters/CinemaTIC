@@ -205,41 +205,48 @@ namespace Cinematic.Domain.Tests
 
         #region GetAvailableSeats
 
-        //[Test]
-        //public void SeatManager_GetAvailableSeatsOpenSessionRightTest()
-        //{
-        //    //Arrange
-        //    var target = GetSeatManagerWithSeats();
+        [Test]
+        public void SeatManager_GetAvailableSeatsOpenSessionRightTest()
+        {
+            //Arrange
+            var target = GetSeatManagerWithSeats();
 
-        //    //Act
-        //    var result = target.GetAvailableSeats(_openSession);
+            //Act
+            var result = target.GetAvailableSeats(_openSession);
 
-        //    //Assert
-        //    result.Count()
-        //        .Should()
-        //        .Be(
-        //            (Session.NUMBER_OF_ROWS * Session.NUMBER_OF_SEATS) -
-        //            (_seats.Where(s => s.Session == _openSession).Count()));
+            //Assert
+            var openSessionSeats = _seats.Where(s => s.Session == _openSession);
 
-        //    //result.Should().BeEquivalentTo(_seats);
-        //}
+            result.Where(s => s.Reserved == false).Count()
+                .Should()
+                .Be((Session.NUMBER_OF_ROWS * Session.NUMBER_OF_SEATS) - openSessionSeats.Count());
+
+
+            result.Where(s => s.Reserved == true).Count().Should().Be(openSessionSeats.Count());
+
+            result.Where(s => s.Reserved == true).Should().BeEquivalentTo(openSessionSeats);
+        }
 
         //[Test]
         //public void SeatManager_GetAvailableSeatsClosedSessionRightTest()
         //{
         //    //Arrange
-        //    var dataContext = new StubIDataContext()
-        //    {
-        //        SeatsGet = () => { return _seats; }
-        //    };
-
-        //    var target = new SeatManager(dataContext);
+        //    var target = GetSeatManagerWithSeats();
 
         //    //Act
         //    var result = target.GetAvailableSeats(_closedSession);
 
         //    //Assert
-        //    Assert.AreEqual(0, (result as ICollection<Seat>).Count);
+        //    var closedSessionSeats = _seats.Where(s => s.Session == _closedSession);
+
+        //    result.Where(s => s.Reserved == false).Count()
+        //        .Should()
+        //        .Be(0);
+
+
+        //    result.Where(s => s.Reserved == true).Count().Should().Be(closedSessionSeats.Count());
+
+        //    result.Where(s => s.Reserved == true).Should().BeEquivalentTo(closedSessionSeats);
         //}
 
         //[Test]
