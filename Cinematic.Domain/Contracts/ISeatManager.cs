@@ -19,7 +19,7 @@ namespace Cinematic.Domain.Contracts
         /// </summary>
         /// <param name="seat"><see cref="Seat">Butaca</see> a cancelar su adjudicación (reserva)</param>
         /// <returns><see cref="Seat">Butaca</see> disponible</returns>
-        Seat DeAllocateSeat(Seat seat);
+        Seat DeallocateSeat(Seat seat);
 
         /// <summary>
         /// Obtiene la lista de <see cref="Seat">butacas</see> disponibles para una <see cref="Session">sesión</see> concreta

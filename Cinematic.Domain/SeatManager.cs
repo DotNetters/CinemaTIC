@@ -127,7 +127,7 @@ namespace Cinematic.Domain
         }
 
         /// <inheritdoc />
-        public Seat DeAllocateSeat(Seat seat)
+        public Seat DeallocateSeat(Seat seat)
         {
             if (seat == null)
                 throw new ArgumentNullException("seat");

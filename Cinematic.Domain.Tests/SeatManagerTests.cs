@@ -7,10 +7,12 @@ using Moq;
 using Cinematic.Domain.Contracts;
 using FluentAssertions;
 using Cinematic.Resources;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cinematic.Domain.Tests
 {
     [TestFixture]
+    [Category("Domain_SeatManager")]
     public class SeatManagerTests
     {
         #region Initialization
@@ -70,13 +72,41 @@ namespace Cinematic.Domain.Tests
 
         #region Common Mocking
 
-        private SeatManager GetSeatManagerWithSeats()
+        private SeatManager GetSeatManagerWithSeats(out Mock<IDataContext> dataContextMock)
         {
-            var dataContextMock = new Mock<IDataContext>();
+            dataContextMock = new Mock<IDataContext>();
             dataContextMock.Setup(m => m.Seats).Returns(_seats);
             var target = new SeatManager(dataContextMock.Object);
 
             return target;
+        }
+
+        #endregion
+
+        #region Ctor tests
+
+        [Test]
+        public void SeatManager_Ctor_Right()
+        {
+            //Arrange
+            var dataContext = Mock.Of<IDataContext>();
+
+            //Act
+            var target = new SeatManager(dataContext);
+
+            //Assert
+            target.Should().NotBeNull();
+        }
+
+        [Test]
+        public void SeatManager_Ctor_DataContextParamNull()
+        {
+            //Arrange
+            //Act
+            Action action = () => { var target = new SeatManager(null); };
+
+            //Assert
+            action.ShouldThrow<ArgumentNullException>().WithMessage(new ArgumentNullException("dataContext").Message);
         }
 
         #endregion
@@ -87,7 +117,8 @@ namespace Cinematic.Domain.Tests
         public void SeatManager_GetSeatRightReservedTest()
         {
             //Arrange
-            var target = GetSeatManagerWithSeats();
+            Mock<IDataContext> dataContextMock;
+            var target = GetSeatManagerWithSeats(out dataContextMock);
 
             //Act
             var result = target.GetSeat(_openSession, 9, 2);
@@ -103,7 +134,8 @@ namespace Cinematic.Domain.Tests
         public void SeatManager_GetSeatRightNotReservedTest()
         {
             //Arrange
-            var target = GetSeatManagerWithSeats();
+            Mock<IDataContext> dataContextMock;
+            var target = GetSeatManagerWithSeats(out dataContextMock);
 
             //Act
             var result = target.GetSeat(_openSession, 11, 12);
@@ -119,7 +151,8 @@ namespace Cinematic.Domain.Tests
         public void SeatManager_GetSeatRowAboveMaxTest()
         {
             //Arrange
-            var target = GetSeatManagerWithSeats();
+            Mock<IDataContext> dataContextMock;
+            var target = GetSeatManagerWithSeats(out dataContextMock);
 
             //Act
             Action action = () =>
@@ -136,7 +169,8 @@ namespace Cinematic.Domain.Tests
         public void SeatManager_GetSeatRowBelowMinTest()
         {
             //Arrange
-            var target = GetSeatManagerWithSeats();
+            Mock<IDataContext> dataContextMock;
+            var target = GetSeatManagerWithSeats(out dataContextMock);
 
             //Act
             Action action = () =>
@@ -153,7 +187,8 @@ namespace Cinematic.Domain.Tests
         public void SeatManager_GetSeatSeatNumberAboveMaxTest()
         {
             //Arrange
-            var target = GetSeatManagerWithSeats();
+            Mock<IDataContext> dataContextMock;
+            var target = GetSeatManagerWithSeats(out dataContextMock);
 
             //Act
             Action action = () =>
@@ -170,7 +205,8 @@ namespace Cinematic.Domain.Tests
         public void SeatManager_GetSeatSeatNumberBelowMinTest()
         {
             //Arrange
-            var target = GetSeatManagerWithSeats();
+            Mock<IDataContext> dataContextMock;
+            var target = GetSeatManagerWithSeats(out dataContextMock);
 
             //Act
             Action action = () =>
@@ -203,13 +239,14 @@ namespace Cinematic.Domain.Tests
 
         #endregion
 
-        #region GetAvailableSeats
+        #region GetAvailableSeats tests
 
         [Test]
-        public void SeatManager_GetAvailableSeatsOpenSessionRightTest()
+        public void SeatManager_GetAvailableSeats_OpenSession_Right()
         {
             //Arrange
-            var target = GetSeatManagerWithSeats();
+            Mock<IDataContext> dataContextMock;
+            var target = GetSeatManagerWithSeats(out dataContextMock);
 
             //Act
             var result = target.GetAvailableSeats(_openSession);
@@ -227,119 +264,186 @@ namespace Cinematic.Domain.Tests
             result.Where(s => s.Reserved == true).Should().BeEquivalentTo(openSessionSeats);
         }
 
-        //[Test]
-        //public void SeatManager_GetAvailableSeatsClosedSessionRightTest()
-        //{
-        //    //Arrange
-        //    var target = GetSeatManagerWithSeats();
+        [Test]
+        public void SeatManager_GetAvailableSeats_ClosedSession_Right()
+        {
+            //Arrange
+            Mock<IDataContext> dataContextMock;
+            var target = GetSeatManagerWithSeats(out dataContextMock);
 
-        //    //Act
-        //    var result = target.GetAvailableSeats(_closedSession);
+            //Act
+            var result = target.GetAvailableSeats(_closedSession);
 
-        //    //Assert
-        //    var closedSessionSeats = _seats.Where(s => s.Session == _closedSession);
+            //Assert
+            result.Count().Should().Be(0);
+        }
 
-        //    result.Where(s => s.Reserved == false).Count()
-        //        .Should()
-        //        .Be(0);
+        [Test]
+        public void SeatManager_GetAvailableSeats_CancelledSession_Right()
+        {
+            //Arrange
+            Mock<IDataContext> dataContextMock;
+            var target = GetSeatManagerWithSeats(out dataContextMock);
 
+            //Act
+            var result = target.GetAvailableSeats(_cancelledSession);
 
-        //    result.Where(s => s.Reserved == true).Count().Should().Be(closedSessionSeats.Count());
+            //Assert
+            result.Count().Should().Be(0);
+        }
 
-        //    result.Where(s => s.Reserved == true).Should().BeEquivalentTo(closedSessionSeats);
-        //}
+        [Test]
+        public void SeatManager_GetAvailableSeats_SessionParamNullException()
+        {
+            //Arrange
+            var dataContext = Mock.Of<IDataContext>();
+            var target = new SeatManager(dataContext);
 
-        //[Test]
-        //public void SeatManager_GetAvailableSeatsCancelledSessionRightTest()
-        //{
-        //    //Arrange
-        //    var dataContext = new StubIDataContext()
-        //    {
-        //        SeatsGet = () => { return _seats; }
-        //    };
+            //Act
+            Action action = () =>
+            {
+                target.GetAvailableSeats(null);
+            };
 
-        //    var target = new SeatManager(dataContext);
+            //Assert
+            action.ShouldThrow<ArgumentNullException>().WithMessage(new ArgumentNullException("session").Message);
+        }
 
-        //    //Act
-        //    var result = target.GetAvailableSeats(_cancelledSession);
+        #endregion
 
-        //    //Assert
-        //    Assert.AreEqual(0, (result as ICollection<Seat>).Count);
-        //}
+        #region AllocateSeat tests
 
-        //[Test]
-        //[ExpectedException(typeof(ArgumentNullException))]
-        //public void SeatManager_GetAvailableSeatsSessionParamNullExceptionTest()
-        //{
-        //    //Arrange
-        //    var dataContext = new StubIDataContext();
-        //    var target = new SeatManager(dataContext);
+        [Test]
+        public void SeatManager_AllocateSeat_Right()
+        {
+            //Arrange
+            Mock<IDataContext> dataContextMock;
+            var target = GetSeatManagerWithSeats(out dataContextMock);
 
-        //    //Act
-        //    var result = target.GetAvailableSeats(null);
-        //}
+            dataContextMock.Setup(m => m.Add(It.IsAny<Seat>())).Callback<Seat>((theSeat) =>
+            {
+                (_seats as IList).Add(theSeat);
+            });
 
-        //#endregion
+            var seatsCount = _seats.Count();
 
-        //#region AllocateSeat
+            var seat = new Seat() { Session = _openSession, Row = 2, SeatNumber = 1, Reserved = false };
 
-        //[Test]
-        //public void SeatManager_AllocateSeatRightTest()
-        //{
-        //    //Arrange
-        //    var dataContext = new StubIDataContext()
-        //    {
-        //        SeatsGet = () => { return _seats; },
-        //    };
-        //    dataContext.AddOf1M0<Seat>((theSeat) => { (_seats as IList).Add(theSeat); });
+            //Act
+            var result = target.AllocateSeat(seat);
 
-        //    var seatsCount = _seats.Count();
+            //Assert
+            result.Row.Should().Be(2);
+            result.SeatNumber.Should().Be(1);
+            result.Reserved.Should().BeTrue();
+            _seats.Count().Should().Be(seatsCount + 1);
+        }
 
-        //    var target = new SeatManager(dataContext);
+        [Test]
+        public void SeatManager_AllocateSeat_ReservedSeat()
+        {
+            //Arrange
+            Mock<IDataContext> dataContextMock;
+            var target = GetSeatManagerWithSeats(out dataContextMock);
 
-        //    var seat = new Seat() { Session = _openSession, Row = 2, SeatNumber = 1, Reserved = false };
+            var seatsCount = _seats.Count();
 
-        //    //Act
-        //    var result = target.AllocateSeat(seat);
+            var seat = new Seat() { Session = _openSession, Row = 9, SeatNumber = 1, Reserved = false };
 
-        //    //Assert
-        //    Assert.AreEqual(2, result.Row);
-        //    Assert.AreEqual(1, result.SeatNumber);
-        //    Assert.AreEqual(true, result.Reserved);
-        //    Assert.AreEqual(seatsCount + 1, _seats.Count());
-        //}
+            //Act
+            Action action = () =>
+            {
+                var result = target.AllocateSeat(seat);
+            };
 
-        //[Test]
-        //[ExpectedException(typeof(TicketManCoreException))]
-        //public void SeatManager_AllocateSeatReservedSeatTest()
-        //{
-        //    //Arrange
-        //    var dataContext = new StubIDataContext()
-        //    {
-        //        SeatsGet = () => { return _seats; },
-        //    };
+            //Assert
+            action.ShouldThrow<CinematicException>().WithMessage(Messages.SeatIsPreviouslyReserved);
+        }
 
-        //    var seatsCount = _seats.Count();
+        [Test]
+        public void SeatManager_AllocateSeat_SeatParamNullException()
+        {
+            //Arrange
+            Mock<IDataContext> dataContextMock;
+            var target = GetSeatManagerWithSeats(out dataContextMock);
 
-        //    var target = new SeatManager(dataContext);
+            //Act
+            Action action = () =>
+            {
+                target.AllocateSeat(null);
+            };
 
-        //    var seat = new Seat() { Session = _openSession, Row = 9, SeatNumber = 1, Reserved = false };
+            //Assert
+            action.ShouldThrow<ArgumentNullException>().WithMessage(new ArgumentNullException("seat").Message);
+        }
 
-        //    //Act
-        //    var result = target.AllocateSeat(seat);
-        //}
+        #endregion
 
-        //[Test]
-        //[ExpectedException(typeof(ArgumentNullException))]
-        //public void SeatManager_AllocateSeatSeatParamNullExceptionTest()
-        //{
-        //    //Arrange
-        //    var dataContext = new StubIDataContext();
-        //    var target = new SeatManager(dataContext);
+        #region DeAllocateSeat tests
 
-        //    //Act
-        //    target.AllocateSeat(null);
-        //}
+        [Test]
+        public void SeatManager_DeallocateSeat_Right()
+        {
+            //Arrange
+            Mock<IDataContext> dataContextMock;
+            var target = GetSeatManagerWithSeats(out dataContextMock);
+
+            dataContextMock.Setup(m => m.Remove(It.IsAny<Seat>())).Callback<Seat>((theSeat) =>
+            {
+                (_seats as IList).Remove(theSeat);
+            });
+
+            var seatsCount = _seats.Count();
+
+            var seat = _seats.Where(s => s.Id == 9).FirstOrDefault();
+
+            //Act
+            var result = target.DeallocateSeat(seat);
+
+            //Assert
+            result.Row.Should().Be(10);
+            result.SeatNumber.Should().Be(5);
+            result.Reserved.Should().BeFalse();
+            _seats.Count().Should().Be(seatsCount - 1);
+        }
+
+        [Test]
+        public void SeatManager_DeallocateSeat_NotReservedSeat()
+        {
+            //Arrange
+            Mock<IDataContext> dataContextMock;
+            var target = GetSeatManagerWithSeats(out dataContextMock);
+
+            var seatsCount = _seats.Count();
+
+            var seat = new Seat() { Session = _openSession, Row = 1, SeatNumber = 1, Reserved = false };
+
+            //Act
+            Action action = () =>
+            {
+                var result = target.DeallocateSeat(seat);
+            };
+
+            //Assert
+            action.ShouldThrow<CinematicException>().WithMessage(Messages.SeatIsNotReserved);
+        }
+
+        [Test]
+        public void SeatManager_DeallocateSeat_SeatParamNullException()
+        {
+            //Arrange
+            Mock<IDataContext> dataContextMock;
+            var target = GetSeatManagerWithSeats(out dataContextMock);
+
+            //Act
+            Action action = () =>
+            {
+                target.DeallocateSeat(null);
+            };
+
+            //Assert
+            action.ShouldThrow<ArgumentNullException>().WithMessage(new ArgumentNullException("seat").Message);
+        }
 
         #endregion
     }

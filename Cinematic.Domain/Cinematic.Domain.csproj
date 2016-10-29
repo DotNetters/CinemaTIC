@@ -7,8 +7,8 @@
     <ProjectGuid>{BE65B5F9-17B7-4148-832E-3C83ECC11BA2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cinematic.Core</RootNamespace>
-    <AssemblyName>Cinematic.Core</AssemblyName>
+    <RootNamespace>Cinematic.Domain</RootNamespace>
+    <AssemblyName>Cinematic.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>
@@ -28,7 +28,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Cinematic.Core.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Cinematic.Domain.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,7 +37,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Cinematic.Core.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\Cinematic.Domain.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

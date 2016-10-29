@@ -81,7 +81,7 @@ namespace Cinematic.Domain
             if (ticket.Seat.Session.Status == SessionStatus.Closed)
                 throw new CinematicException(Messages.SessionIsClosedCannotReturnTickets);
 
-            _seatManager.DeAllocateSeat(ticket.Seat);
+            _seatManager.DeallocateSeat(ticket.Seat);
 
             _dataContext.Remove(ticket);
         }
