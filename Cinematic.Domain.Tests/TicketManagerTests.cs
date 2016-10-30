@@ -219,87 +219,84 @@ namespace Cinematic.Domain.Tests
             action.ShouldThrow<ArgumentNullException>().WithMessage(new ArgumentNullException("ticket.Seat").Message);
         }
 
-        //[TestMethod]
-        //[ExpectedException(typeof(ArgumentNullException))]
-        //public void TicketManager_CancelTicketTicketSeatSessionParamNullExceptionTest()
-        //{
-        //    //Arrange
-        //    var seatManager = new StubISeatManager();
-        //    var priceManager = new StubIPriceManager();
-        //    var dataContext = new StubIDataContext();
+        [Test]
+        public void TicketManager_CancelTicket_TicketSeatSessionParamNullException()
+        {
+            //Arrange
+            var seatManager = Mock.Of<ISeatManager>();
+            var priceManager = Mock.Of<IPriceManager>();
+            var dataContext = Mock.Of<IDataContext>();
 
-        //    var target = new TicketManager(seatManager, priceManager, dataContext);
+            var target = new TicketManager(seatManager, priceManager, dataContext);
 
-        //    //Act
-        //    target.CancelTicket(new Ticket() { Seat = new Seat() { Session = null } });
-        //}
+            //Act
+            Action action = () => { target.CancelTicket(new Ticket() { Seat = new Seat() { Session = null } }); };
+
+            //Assert
+            action.ShouldThrow<ArgumentNullException>().WithMessage(new ArgumentNullException("ticket.Seat.Session").Message);
+        }
 
         #endregion
 
-        //#region Constructor tests
+        #region Constructor tests
 
-        //[TestMethod]
-        //public void TicketManager_ConstructorRightTest()
-        //{
-        //    //Arrange
-        //    var seatManager = new StubISeatManager();
-        //    var priceManager = new StubIPriceManager();
-        //    var dataContext = new StubIDataContext();
+        [Test]
+        public void TicketManager_Constructor_Right()
+        {
+            //Arrange
+            var seatManager = Mock.Of<ISeatManager>();
+            var priceManager = Mock.Of<IPriceManager>();
+            var dataContext = Mock.Of<IDataContext>();
 
-        //    //Act
-        //    var target = new TicketManager(seatManager, priceManager, dataContext);
+            //Act
+            var target = new TicketManager(seatManager, priceManager, dataContext);
 
-        //    //Assert
-        //    PrivateObject po = new PrivateObject(target);
+            //Assert
+            target.Should().NotBeNull();
+        }
 
-        //    Assert.IsInstanceOfType(po.GetField("_seatManager"), typeof(ISeatManager));
-        //    Assert.IsNotNull(po.GetField("_seatManager"));
-        //    Assert.IsInstanceOfType(po.GetField("_priceManager"), typeof(IPriceManager));
-        //    Assert.IsNotNull(po.GetField("_priceManager"));
-        //    Assert.IsInstanceOfType(po.GetField("_dataContext"), typeof(IDataContext));
-        //    Assert.IsNotNull(po.GetField("_dataContext"));
+        [Test]
+        public void TicketManager_Constructor_SeatManagerParamNullException()
+        {
+            //Arrange
+            var priceManager = Mock.Of<IPriceManager>();
+            var dataContext = Mock.Of<IDataContext>();
 
-        //}
+            //Act
+            Action action = () => { var target = new TicketManager(null, priceManager, dataContext); };
 
-        //[TestMethod]
-        //[ExpectedException(typeof(ArgumentNullException))]
-        //public void TicketManager_ConstructorSeatManagerParamNullExceptionTest()
-        //{
-        //    //Arrange
-        //    var seatManager = (ISeatManager)null;
-        //    var priceManager = new StubIPriceManager();
-        //    var dataContext = new StubIDataContext();
+            //Assert
+            action.ShouldThrow<ArgumentNullException>().WithMessage(new ArgumentNullException("seatManager").Message);
+        }
 
-        //    //Act
-        //    var target = new TicketManager(seatManager, priceManager, dataContext);
-        //}
+        [Test]
+        public void TicketManager_Constructor_PriceManagerParamNullException()
+        {
+            //Arrange
+            var seatManager = Mock.Of<ISeatManager>();
+            var dataContext = Mock.Of<IDataContext>();
 
-        //[TestMethod]
-        //[ExpectedException(typeof(ArgumentNullException))]
-        //public void TicketManager_ConstructorPriceManagerParamNullExceptionTest()
-        //{
-        //    //Arrange
-        //    var seatManager = new StubISeatManager();
-        //    var priceManager = (IPriceManager)null;
-        //    var dataContext = new StubIDataContext();
+            //Act
+            Action action = () => { var target = new TicketManager(seatManager, null, dataContext); };
 
-        //    //Act
-        //    var target = new TicketManager(seatManager, priceManager, dataContext);
-        //}
+            //Assert
+            action.ShouldThrow<ArgumentNullException>().WithMessage(new ArgumentNullException("priceManager").Message);
+        }
 
-        //[TestMethod]
-        //[ExpectedException(typeof(ArgumentNullException))]
-        //public void TicketManager_ConstructorDataContextParamNullExceptionTest()
-        //{
-        //    //Arrange
-        //    var seatManager = new StubISeatManager();
-        //    var priceManager = new StubIPriceManager();
-        //    var dataContext = (IDataContext)null;
+        [Test]
+        public void TicketManager_Constructor_DataContextParamNullException()
+        {
+            //Arrange
+            var seatManager = Mock.Of<ISeatManager>();
+            var priceManager = Mock.Of<IPriceManager>();
 
-        //    //Act
-        //    var target = new TicketManager(seatManager, priceManager, dataContext);
-        //}
+            //Act
+            Action action = () => { var target = new TicketManager(seatManager, priceManager, null); };
 
-        //#endregion
+            //Assert
+            action.ShouldThrow<ArgumentNullException>().WithMessage(new ArgumentNullException("dataContext").Message);
+        }
+
+        #endregion
     }
 }
