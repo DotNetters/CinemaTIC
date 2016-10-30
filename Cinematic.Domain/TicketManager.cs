@@ -58,7 +58,7 @@ namespace Cinematic.Domain
             {
                 Price = _priceManager.GetTicketPrice(allocatedSeat.Session, allocatedSeat.Row, allocatedSeat.SeatNumber),
                 Seat = allocatedSeat,
-                TimeAndDate = DateTime.Now
+                TimeAndDate = SystemTime.Now()
             };
 
             _dataContext.Add(newTicket);

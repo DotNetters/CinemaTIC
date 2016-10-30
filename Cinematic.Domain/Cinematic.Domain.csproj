@@ -64,6 +64,7 @@
     <Compile Include="Session.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="SessionStatus.cs" />
+    <Compile Include="SystemTime.cs" />
     <Compile Include="Ticket.cs" />
     <Compile Include="TicketManager.cs" />
     <Compile Include="CinematicException.cs" />

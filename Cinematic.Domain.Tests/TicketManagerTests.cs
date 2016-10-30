@@ -1,301 +1,305 @@
-﻿//using System;
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using TicketMan.Core.Contracts.Fakes;
-//using System.Fakes;
-//using Microsoft.QualityTools.Testing.Fakes;
-//using TicketMan.Core.Contracts;
+﻿using NUnit.Framework;
+using FluentAssertions;
+using System;
+using Cinematic.Domain.Contracts;
+using Moq;
+using Cinematic.Resources;
 
-//namespace Cinematic.Domain.Tests
-//{
-//    [TestFixture]
-//    public class TicketManagerTests
-//    {
-//        #region SellTicket tests
+namespace Cinematic.Domain.Tests
+{
+    [TestFixture]
+    [Category("Cinematic.Domain.TicketManager")]
+    public class TicketManagerTests
+    {
+        #region Common mocking
 
-//        [TestMethod]
-//        public void TicketManager_SellTicketRightTest()
-//        {
-//            using (ShimsContext.Create())
-//            {
-//                //Arrange
-//                var seatManager = new StubISeatManager()
-//                {
-//                    AllocateSeatSeat = (s) =>
-//                    {
-//                        s.Reserved = true;
-//                        return s;
-//                    }
-//                };
-//                var priceManager = new StubIPriceManager()
-//                {
-//                    GetTicketPriceSessionInt32Int32 = (s, row, seatNumber) =>
-//                    {
-//                        return 7;
-//                    }
-//                };
-//                var addCount = 0;
-//                var dataContext = new StubIDataContext();
-//                dataContext.AddOf1M0<Ticket>((t) =>
-//                {
-//                    t.Id = 1;
-//                    addCount++;
-//                });
+        #endregion
 
-//                var dateFixed = new DateTime(2014, 10, 26, 18, 0, 0);
-//                ShimDateTime.NowGet = () => { return dateFixed; };
+        #region SellTicket tests
 
-//                var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26), Status = SessionStatus.Open };
-//                var seat = new Seat() { Row = Session.NUMBER_OF_ROWS, SeatNumber = Session.NUMBER_OF_SEATS, Session = session, Reserved = false };
-//                var target = new TicketManager(seatManager, priceManager, dataContext);
+        [Test]
+        public void TicketManager_SellTicket_Right()
+        {
+            //Arrange
+            var seatManagerMock = new Mock<ISeatManager>();
+            var priceManagerMock = new Mock<IPriceManager>();
+            var dataContextMock = new Mock<IDataContext>();
 
-//                //Act
-//                var result = target.SellTicket(seat);
+            seatManagerMock.Setup(m => m.AllocateSeat(It.IsAny<Seat>())).Returns<Seat>((s) =>
+            {
+                s.Reserved = true;
+                return s;
+            });
 
-//                //Assert
-//                Assert.AreEqual(seat, result.Seat);
-//                Assert.AreEqual(7, result.Price);
-//                Assert.AreEqual(dateFixed, result.TimeAndDate);
-//                Assert.AreEqual(1, addCount);
-//            }
-//        }
+            priceManagerMock.Setup(m => m.GetTicketPrice(It.IsAny<Session>(), It.IsAny<int>(), It.IsAny<int>())).Returns(7);
 
-//        [TestMethod]
-//        [ExpectedException(typeof(TicketManCoreException))]
-//        public void TicketManager_SellTicketClosedSessionTest()
-//        {
-//            //Arrange
-//            var seatManager = new StubISeatManager();
-//            var priceManager = new StubIPriceManager();
-//            var dataContext = new StubIDataContext();
+            dataContextMock.Setup(m => m.Add(It.IsAny<Ticket>())).Callback<Ticket>((t) =>
+            {
+                t.Id = 1;
+            });
 
-//            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26), Status = SessionStatus.Closed };
-//            var seat = new Seat() { Row = Session.NUMBER_OF_ROWS, SeatNumber = Session.NUMBER_OF_SEATS, Session = session, Reserved = false };
-//            var target = new TicketManager(seatManager, priceManager, dataContext);
+            var fixedDate = new DateTime(2014, 10, 26, 18, 0, 0); ;
 
-//            //Act
-//            var result = target.SellTicket(seat);
-//        }
+            SystemTime.Now = () => fixedDate;
 
-//        [TestMethod]
-//        [ExpectedException(typeof(TicketManCoreException))]
-//        public void TicketManager_SellTicketCancelledSessionTest()
-//        {
-//            //Arrange
-//            var seatManager = new StubISeatManager();
-//            var priceManager = new StubIPriceManager();
-//            var dataContext = new StubIDataContext();
+            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26), Status = SessionStatus.Open };
+            var seat = new Seat() { Row = Session.NUMBER_OF_ROWS, SeatNumber = Session.NUMBER_OF_SEATS, Session = session, Reserved = false };
+            var target = new TicketManager(seatManagerMock.Object, priceManagerMock.Object, dataContextMock.Object);
 
-//            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26), Status = SessionStatus.Cancelled };
-//            var seat = new Seat() { Row = Session.NUMBER_OF_ROWS, SeatNumber = Session.NUMBER_OF_SEATS, Session = session, Reserved = false };
-//            var target = new TicketManager(seatManager, priceManager, dataContext);
+            //Act
+            var result = target.SellTicket(seat);
 
-//            //Act
-//            var result = target.SellTicket(seat);
-//        }
+            //Assert
+            result.Seat.ShouldBeEquivalentTo(seat);
+            result.Price.Should().Be(7);
+            result.TimeAndDate.ShouldBeEquivalentTo(fixedDate);
+        }
 
-//        [TestMethod]
-//        [ExpectedException(typeof(ArgumentNullException))]
-//        public void TicketManager_SellTicketSeatParamNullExceptionTest()
-//        {
-//            //Arrange
-//            var seatManager = new StubISeatManager();
-//            var priceManager = new StubIPriceManager();
-//            var dataContext = new StubIDataContext();
+        [Test]
+        public void TicketManager_SellTicket_ClosedSession()
+        {
+            //Arrange
+            var seatManager = Mock.Of<ISeatManager>();
+            var priceManager = Mock.Of<IPriceManager>();
+            var dataContext = Mock.Of<IDataContext>();
 
-//            var target = new TicketManager(seatManager, priceManager, dataContext);
+            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26), Status = SessionStatus.Closed };
+            var seat = new Seat() { Row = Session.NUMBER_OF_ROWS, SeatNumber = Session.NUMBER_OF_SEATS, Session = session, Reserved = false };
+            var target = new TicketManager(seatManager, priceManager, dataContext);
 
-//            //Act
-//            target.SellTicket(null);
-//        }
+            //Act
+            Action action = () => { var result = target.SellTicket(seat); };
 
-//        [TestMethod]
-//        [ExpectedException(typeof(ArgumentNullException))]
-//        public void TicketManager_SellTicketSeatSessionParamNullExceptionTest()
-//        {
-//            //Arrange
-//            var seatManager = new StubISeatManager();
-//            var priceManager = new StubIPriceManager();
-//            var dataContext = new StubIDataContext();
+            //Assert
+            action.ShouldThrow<CinematicException>().WithMessage(Messages.SessionIsClosedNoTicketsAvailable);
+        }
 
-//            var target = new TicketManager(seatManager, priceManager, dataContext);
+        [Test]
+        public void TicketManager_SellTicket_CancelledSession()
+        {
+            //Arrange
+            var seatManager = Mock.Of<ISeatManager>();
+            var priceManager = Mock.Of<IPriceManager>();
+            var dataContext = Mock.Of<IDataContext>();
 
-//            //Act
-//            target.SellTicket(new Seat() { Session = null });
-//        } 
+            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26), Status = SessionStatus.Cancelled };
+            var seat = new Seat() { Row = Session.NUMBER_OF_ROWS, SeatNumber = Session.NUMBER_OF_SEATS, Session = session, Reserved = false };
+            var target = new TicketManager(seatManager, priceManager, dataContext);
 
-//        #endregion
+            //Act
+            Action action = () => { var result = target.SellTicket(seat); };
 
-//        #region CancelTicket tests
+            //Assert
+            action.ShouldThrow<CinematicException>().WithMessage(Messages.SessionIsCancelledNoTicketsAvailable);
+        }
 
-//        [TestMethod]
-//        public void TicketManager_CancelTicketRightTest()
-//        {
-//            using (ShimsContext.Create())
-//            {
-//                //Arrange
-//                var seatManager = new StubISeatManager()
-//                {
-//                    DeAllocateSeatSeat = (s) =>
-//                    {
-//                        s.Reserved = false;
-//                        return s;
-//                    }
-//                };
-//                var priceManager = new StubIPriceManager();
+        [Test]
+        public void TicketManager_SellTicket_SeatParamNullException()
+        {
+            //Arrange
+            var seatManager = Mock.Of<ISeatManager>();
+            var priceManager = Mock.Of<IPriceManager>();
+            var dataContext = Mock.Of<IDataContext>();
 
-//                var removeCount = 0;
-//                var dataContext = new StubIDataContext();
-//                dataContext.RemoveOf1M0<Ticket>((t) =>
-//                {
-//                    t.Id = 1;
-//                    removeCount++;
-//                });
+            var target = new TicketManager(seatManager, priceManager, dataContext);
 
-//                var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26), Status = SessionStatus.Open };
-//                var seat = new Seat() { Row = Session.NUMBER_OF_ROWS, SeatNumber = Session.NUMBER_OF_SEATS, Session = session, Reserved = true };
-//                var ticket = new Ticket() { Price = 7, Seat = seat, TimeAndDate = DateTime.Now };
+            //Act
+            Action action = () => { target.SellTicket(null); };
 
-//                var target = new TicketManager(seatManager, priceManager, dataContext);
+            //Assert
+            action.ShouldThrow<ArgumentNullException>().WithMessage(new ArgumentNullException("seat").Message);
+        }
 
-//                //Act
-//                target.CancelTicket(ticket);
+        [Test]
+        public void TicketManager_SellTicket_SeatSessionParamNullException()
+        {
+            //Arrange
+            var seatManager = Mock.Of<ISeatManager>();
+            var priceManager = Mock.Of<IPriceManager>();
+            var dataContext = Mock.Of<IDataContext>();
 
-//                //Assert
-//                Assert.IsFalse(ticket.Seat.Reserved);
-//                Assert.AreEqual(1, removeCount);
-//            }
-//        }
+            var target = new TicketManager(seatManager, priceManager, dataContext);
 
-//        [TestMethod]
-//        [ExpectedException(typeof(TicketManCoreException))]
-//        public void TicketManager_CancelTicketClosedSessionTest()
-//        {
-//            //Arrange
-//            var seatManager = new StubISeatManager();
-//            var priceManager = new StubIPriceManager();
-//            var dataContext = new StubIDataContext();
+            //Act
+            Action action = () => { target.SellTicket(new Seat() { Session = null }); };
 
-//            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26), Status = SessionStatus.Closed };
-//            var seat = new Seat() { Row = Session.NUMBER_OF_ROWS, SeatNumber = Session.NUMBER_OF_SEATS, Session = session, Reserved = true };
-//            var ticket = new Ticket() { Price = 7, Seat = seat, TimeAndDate = DateTime.Now };
+            //Assert
+            action.ShouldThrow<ArgumentNullException>().WithMessage(new ArgumentNullException("seat.Session").Message);
+        }
 
-//            var target = new TicketManager(seatManager, priceManager, dataContext);
+        #endregion
 
-//            //Act
-//            target.CancelTicket(ticket);
-//        }
+        #region CancelTicket tests
 
-//        [TestMethod]
-//        [ExpectedException(typeof(ArgumentNullException))]
-//        public void TicketManager_CancelTicketTicketParamNullExceptionTest()
-//        {
-//            //Arrange
-//            var seatManager = new StubISeatManager();
-//            var priceManager = new StubIPriceManager();
-//            var dataContext = new StubIDataContext();
+        [Test]
+        public void TicketManager_CancelTicket_Right()
+        {
+            //Arrange
+            var seatManagerMock = new Mock<ISeatManager>();
+            var priceManagerMock = new Mock<IPriceManager>();
+            var dataContextMock = new Mock<IDataContext>();
 
-//            var target = new TicketManager(seatManager, priceManager, dataContext);
+            seatManagerMock.Setup(m => m.DeallocateSeat(It.IsAny<Seat>())).Returns<Seat>((s) =>
+            {
+                s.Reserved = false;
+                return s;
+            });
 
-//            //Act
-//            target.CancelTicket(null);
-//        }
+            dataContextMock.Setup(m => m.Remove(It.IsAny<Ticket>())).Callback<Ticket>((t) =>
+            {
+                t.Id = 1;
+            });
 
-//        [TestMethod]
-//        [ExpectedException(typeof(ArgumentNullException))]
-//        public void TicketManager_CancelTicketTicketSeatParamNullExceptionTest()
-//        {
-//            //Arrange
-//            var seatManager = new StubISeatManager();
-//            var priceManager = new StubIPriceManager();
-//            var dataContext = new StubIDataContext();
+            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26), Status = SessionStatus.Open };
+            var seat = new Seat() { Row = Session.NUMBER_OF_ROWS, SeatNumber = Session.NUMBER_OF_SEATS, Session = session, Reserved = true };
+            var ticket = new Ticket() { Price = 7, Seat = seat, TimeAndDate = DateTime.Now };
 
-//            var target = new TicketManager(seatManager, priceManager, dataContext);
+            var target = new TicketManager(seatManagerMock.Object, priceManagerMock.Object, dataContextMock.Object);
 
-//            //Act
-//            target.CancelTicket(new Ticket() { Seat = null });
-//        } 
+            //Act
+            target.CancelTicket(ticket);
 
-//        [TestMethod]
-//        [ExpectedException(typeof(ArgumentNullException))]
-//        public void TicketManager_CancelTicketTicketSeatSessionParamNullExceptionTest()
-//        {
-//            //Arrange
-//            var seatManager = new StubISeatManager();
-//            var priceManager = new StubIPriceManager();
-//            var dataContext = new StubIDataContext();
+            //Assert
+            ticket.Seat.Reserved.Should().BeFalse();
+            dataContextMock.Verify(m => m.Remove(It.IsAny<Ticket>()), Times.Once);
+        }
 
-//            var target = new TicketManager(seatManager, priceManager, dataContext);
+        [Test]
+        public void TicketManager_CancelTicket_ClosedSession()
+        {
+            //Arrange
+            var seatManager = Mock.Of<ISeatManager>();
+            var priceManager = Mock.Of<IPriceManager>();
+            var dataContext = Mock.Of<IDataContext>();
 
-//            //Act
-//            target.CancelTicket(new Ticket() { Seat = new Seat() { Session = null } });
-//        } 
+            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26), Status = SessionStatus.Closed };
+            var seat = new Seat() { Row = Session.NUMBER_OF_ROWS, SeatNumber = Session.NUMBER_OF_SEATS, Session = session, Reserved = true };
+            var ticket = new Ticket() { Price = 7, Seat = seat, TimeAndDate = DateTime.Now };
 
-//        #endregion
+            var target = new TicketManager(seatManager, priceManager, dataContext);
 
-//        #region Constructor tests
+            //Act
+            Action action = () => { target.CancelTicket(ticket); };
 
-//        [TestMethod]
-//        public void TicketManager_ConstructorRightTest()
-//        {
-//            //Arrange
-//            var seatManager = new StubISeatManager();
-//            var priceManager = new StubIPriceManager();
-//            var dataContext = new StubIDataContext();
+            //Assert
+            action.ShouldThrow<CinematicException>().WithMessage(Messages.SessionIsClosedCannotReturnTickets);
+        }
 
-//            //Act
-//            var target = new TicketManager(seatManager, priceManager, dataContext);
+        [Test]
+        public void TicketManager_CancelTicket_TicketParamNullException()
+        {
+            //Arrange
+            var seatManager = Mock.Of<ISeatManager>();
+            var priceManager = Mock.Of<IPriceManager>();
+            var dataContext = Mock.Of<IDataContext>();
 
-//            //Assert
-//            PrivateObject po = new PrivateObject(target);
+            var target = new TicketManager(seatManager, priceManager, dataContext);
 
-//            Assert.IsInstanceOfType(po.GetField("_seatManager"), typeof(ISeatManager));
-//            Assert.IsNotNull(po.GetField("_seatManager"));
-//            Assert.IsInstanceOfType(po.GetField("_priceManager"), typeof(IPriceManager));
-//            Assert.IsNotNull(po.GetField("_priceManager"));
-//            Assert.IsInstanceOfType(po.GetField("_dataContext"), typeof(IDataContext));
-//            Assert.IsNotNull(po.GetField("_dataContext"));
+            //Act
+            Action action = () => { target.CancelTicket(null); };
 
-//        }
+            //Assert
+            action.ShouldThrow<ArgumentNullException>().WithMessage(new ArgumentNullException("ticket").Message);
+        }
 
-//        [TestMethod]
-//        [ExpectedException(typeof(ArgumentNullException))]
-//        public void TicketManager_ConstructorSeatManagerParamNullExceptionTest()
-//        {
-//            //Arrange
-//            var seatManager = (ISeatManager)null;
-//            var priceManager = new StubIPriceManager();
-//            var dataContext = new StubIDataContext();
+        [Test]
+        public void TicketManager_CancelTicket_TicketSeatParamNullException()
+        {
+            //Arrange
+            var seatManager = Mock.Of<ISeatManager>();
+            var priceManager = Mock.Of<IPriceManager>();
+            var dataContext = Mock.Of<IDataContext>();
 
-//            //Act
-//            var target = new TicketManager(seatManager, priceManager, dataContext);
-//        }
+            var target = new TicketManager(seatManager, priceManager, dataContext);
 
-//        [TestMethod]
-//        [ExpectedException(typeof(ArgumentNullException))]
-//        public void TicketManager_ConstructorPriceManagerParamNullExceptionTest()
-//        {
-//            //Arrange
-//            var seatManager = new StubISeatManager();
-//            var priceManager = (IPriceManager)null;
-//            var dataContext = new StubIDataContext();
+            //Act
+            Action action = () => { target.CancelTicket(new Ticket() { Seat = null }); };
 
-//            //Act
-//            var target = new TicketManager(seatManager, priceManager, dataContext);
-//        }
+            //Assert
+            action.ShouldThrow<ArgumentNullException>().WithMessage(new ArgumentNullException("ticket.Seat").Message);
+        }
 
-//        [TestMethod]
-//        [ExpectedException(typeof(ArgumentNullException))]
-//        public void TicketManager_ConstructorDataContextParamNullExceptionTest()
-//        {
-//            //Arrange
-//            var seatManager = new StubISeatManager();
-//            var priceManager = new StubIPriceManager();
-//            var dataContext = (IDataContext)null;
+        //[TestMethod]
+        //[ExpectedException(typeof(ArgumentNullException))]
+        //public void TicketManager_CancelTicketTicketSeatSessionParamNullExceptionTest()
+        //{
+        //    //Arrange
+        //    var seatManager = new StubISeatManager();
+        //    var priceManager = new StubIPriceManager();
+        //    var dataContext = new StubIDataContext();
 
-//            //Act
-//            var target = new TicketManager(seatManager, priceManager, dataContext);
-//        } 
+        //    var target = new TicketManager(seatManager, priceManager, dataContext);
 
-//        #endregion
-//    }
-//}
+        //    //Act
+        //    target.CancelTicket(new Ticket() { Seat = new Seat() { Session = null } });
+        //}
+
+        #endregion
+
+        //#region Constructor tests
+
+        //[TestMethod]
+        //public void TicketManager_ConstructorRightTest()
+        //{
+        //    //Arrange
+        //    var seatManager = new StubISeatManager();
+        //    var priceManager = new StubIPriceManager();
+        //    var dataContext = new StubIDataContext();
+
+        //    //Act
+        //    var target = new TicketManager(seatManager, priceManager, dataContext);
+
+        //    //Assert
+        //    PrivateObject po = new PrivateObject(target);
+
+        //    Assert.IsInstanceOfType(po.GetField("_seatManager"), typeof(ISeatManager));
+        //    Assert.IsNotNull(po.GetField("_seatManager"));
+        //    Assert.IsInstanceOfType(po.GetField("_priceManager"), typeof(IPriceManager));
+        //    Assert.IsNotNull(po.GetField("_priceManager"));
+        //    Assert.IsInstanceOfType(po.GetField("_dataContext"), typeof(IDataContext));
+        //    Assert.IsNotNull(po.GetField("_dataContext"));
+
+        //}
+
+        //[TestMethod]
+        //[ExpectedException(typeof(ArgumentNullException))]
+        //public void TicketManager_ConstructorSeatManagerParamNullExceptionTest()
+        //{
+        //    //Arrange
+        //    var seatManager = (ISeatManager)null;
+        //    var priceManager = new StubIPriceManager();
+        //    var dataContext = new StubIDataContext();
+
+        //    //Act
+        //    var target = new TicketManager(seatManager, priceManager, dataContext);
+        //}
+
+        //[TestMethod]
+        //[ExpectedException(typeof(ArgumentNullException))]
+        //public void TicketManager_ConstructorPriceManagerParamNullExceptionTest()
+        //{
+        //    //Arrange
+        //    var seatManager = new StubISeatManager();
+        //    var priceManager = (IPriceManager)null;
+        //    var dataContext = new StubIDataContext();
+
+        //    //Act
+        //    var target = new TicketManager(seatManager, priceManager, dataContext);
+        //}
+
+        //[TestMethod]
+        //[ExpectedException(typeof(ArgumentNullException))]
+        //public void TicketManager_ConstructorDataContextParamNullExceptionTest()
+        //{
+        //    //Arrange
+        //    var seatManager = new StubISeatManager();
+        //    var priceManager = new StubIPriceManager();
+        //    var dataContext = (IDataContext)null;
+
+        //    //Act
+        //    var target = new TicketManager(seatManager, priceManager, dataContext);
+        //}
+
+        //#endregion
+    }
+}

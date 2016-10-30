@@ -12,7 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Cinematic.Domain.Tests
 {
     [TestFixture]
-    [Category("Domain_SeatManager")]
+    [Category("Cinematic.Domain.SeatManager")]
     public class SeatManagerTests
     {
         #region Initialization
