@@ -63,7 +63,7 @@ namespace Cinematic.Web.Controllers
             return View(viewModel);
         }
 
-        public ActionResult TicketsSelled(int? id, string selectedSeats)
+        public ActionResult TicketsSold(int? id, string selectedSeats)
         {
             var viewModel = new TicketsSelledViewModel();
 
