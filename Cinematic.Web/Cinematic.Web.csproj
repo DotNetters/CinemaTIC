@@ -244,7 +244,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\SessionsIndexViewModel.cs" />
     <Compile Include="Models\TicketSellingIndexViewModel.cs" />
-    <Compile Include="Models\TicketsSelledViewModel.cs" />
+    <Compile Include="Models\TicketsSoldViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

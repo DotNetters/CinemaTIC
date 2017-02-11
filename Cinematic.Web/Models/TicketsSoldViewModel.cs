@@ -6,12 +6,12 @@ using Cinematic.Domain;
 
 namespace Cinematic.Web.Models
 {
-    public class TicketsSelledViewModel
+    public class TicketsSoldViewModel
     {
         /// <summary>
-        /// Inicializa una instancia de <see cref="TicketsSelledViewModel"/>
+        /// Inicializa una instancia de <see cref="TicketsSoldViewModel"/>
         /// </summary>
-        public TicketsSelledViewModel()
+        public TicketsSoldViewModel()
         {
             this.Errors = new List<string>();
             this.Tickets = new List<Ticket>();

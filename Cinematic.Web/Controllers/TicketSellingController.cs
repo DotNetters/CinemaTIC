@@ -65,7 +65,7 @@ namespace Cinematic.Web.Controllers
 
         public ActionResult TicketsSold(int? id, string selectedSeats)
         {
-            var viewModel = new TicketsSelledViewModel();
+            var viewModel = new TicketsSoldViewModel();
 
             try
             {
