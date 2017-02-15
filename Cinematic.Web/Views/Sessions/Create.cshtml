@@ -12,11 +12,14 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/globalize")
-    @Scripts.Render("~/bundles/siteval")
 
     <script type="text/javascript">
-        $(function () { setActiveMenuItem("SessionsMenuItem"); });
+        $(function ()  {
+            setActiveMenuItem("SessionsMenuItem");
+            $('#timeAndDate').datetimepicker({
+                locale: 'es'
+            });
+        });
     </script>
 
 }
