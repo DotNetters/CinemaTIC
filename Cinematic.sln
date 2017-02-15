@@ -12,13 +12,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8A11AA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinematic.Resources", "Cinematic.Resources\Cinematic.Resources.csproj", "{7CC1EDB7-9375-4CA6-B2BE-12232A8BC2DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinematic.Domain", "Cinematic.Domain\Cinematic.Domain.csproj", "{BE65B5F9-17B7-4148-832E-3C83ECC11BA2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinematic.DAL", "Cinematic.DAL\Cinematic.DAL.csproj", "{3BD970AA-718D-435B-A4A3-B18E50557705}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinematic.Web", "Cinematic.Web\Cinematic.Web.csproj", "{718C6F79-A449-4363-A155-6B19D70BAA0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinematic.Domain.Tests", "Cinematic.Domain.Tests\Cinematic.Domain.Tests.csproj", "{DCC3A8C5-A60D-4792-AF67-A7F957C4BE68}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinematic.Core", "Cinematic.Core\Cinematic.Core.csproj", "{BE65B5F9-17B7-4148-832E-3C83ECC11BA2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinematic.Core.Tests", "Cinematic.Core.Tests\Cinematic.Core.Tests.csproj", "{DCC3A8C5-A60D-4792-AF67-A7F957C4BE68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinematic.Infrastructure", "Cinematic.Infrastructure\Cinematic.Infrastructure.csproj", "{11BE2362-FAB5-41B7-A26C-6D07FFDFCC4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,10 +32,6 @@ Global
 		{7CC1EDB7-9375-4CA6-B2BE-12232A8BC2DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CC1EDB7-9375-4CA6-B2BE-12232A8BC2DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CC1EDB7-9375-4CA6-B2BE-12232A8BC2DE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BE65B5F9-17B7-4148-832E-3C83ECC11BA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE65B5F9-17B7-4148-832E-3C83ECC11BA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE65B5F9-17B7-4148-832E-3C83ECC11BA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE65B5F9-17B7-4148-832E-3C83ECC11BA2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3BD970AA-718D-435B-A4A3-B18E50557705}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3BD970AA-718D-435B-A4A3-B18E50557705}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BD970AA-718D-435B-A4A3-B18E50557705}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -42,10 +40,18 @@ Global
 		{718C6F79-A449-4363-A155-6B19D70BAA0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{718C6F79-A449-4363-A155-6B19D70BAA0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{718C6F79-A449-4363-A155-6B19D70BAA0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE65B5F9-17B7-4148-832E-3C83ECC11BA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE65B5F9-17B7-4148-832E-3C83ECC11BA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE65B5F9-17B7-4148-832E-3C83ECC11BA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE65B5F9-17B7-4148-832E-3C83ECC11BA2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DCC3A8C5-A60D-4792-AF67-A7F957C4BE68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DCC3A8C5-A60D-4792-AF67-A7F957C4BE68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCC3A8C5-A60D-4792-AF67-A7F957C4BE68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCC3A8C5-A60D-4792-AF67-A7F957C4BE68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11BE2362-FAB5-41B7-A26C-6D07FFDFCC4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11BE2362-FAB5-41B7-A26C-6D07FFDFCC4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11BE2362-FAB5-41B7-A26C-6D07FFDFCC4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11BE2362-FAB5-41B7-A26C-6D07FFDFCC4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

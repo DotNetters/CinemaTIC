@@ -1,12 +1,12 @@
-﻿using System.Reflection;
-using System.Resources;
+﻿using System.Resources;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // La información general sobre un ensamblado se controla mediante el siguiente 
 // conjunto de atributos. Cambie estos atributos para modificar la información
 // asociada con un ensamblado.
-[assembly: AssemblyTitle("Cinematic.DAL")]
+[assembly: AssemblyTitle("Cinematic.Core")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
@@ -21,7 +21,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // El siguiente GUID sirve como identificador de typelib si este proyecto se expone a COM
-[assembly: Guid("5243d0e8-0ee3-4d06-a9a5-a1dedc1684d1")]
+[assembly: Guid("056e514a-5602-45ca-949f-eb35470191d6")]
 
 // La información de versión de un ensamblado consta de los cuatro valores siguientes:
 //
@@ -35,4 +35,7 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+[assembly:InternalsVisibleTo("Cinematic.Core.Tests")]
 [assembly: NeutralResourcesLanguage("es-ES")]
+

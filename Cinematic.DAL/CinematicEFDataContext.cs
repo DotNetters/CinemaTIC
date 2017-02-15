@@ -1,13 +1,10 @@
-﻿using Cinematic.Domain;
-using Cinematic.Domain.Contracts;
+﻿using Cinematic.Contracts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cinematic.DAL
 {
@@ -15,7 +12,7 @@ namespace Cinematic.DAL
     {
         #region Query expansion
 
-        private class DbIncluder : Cinematic.Extensions.QueryableExtensions.IIncluder
+        private class DbIncluder : Cinematic.QueryableExtensions.IIncluder
         {
             public IQueryable<T> Include<T, TProperty>(IQueryable<T> source, Expression<Func<T, TProperty>> path)
                 where T : class
@@ -33,7 +30,7 @@ namespace Cinematic.DAL
         /// </summary>
         static CinematicEFDataContext()
         {
-            Cinematic.Extensions.QueryableExtensions.Includer = new DbIncluder();
+            Cinematic.QueryableExtensions.Includer = new DbIncluder();
         }
 
         /// <summary>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Cinematic.Domain;
+﻿using System.Collections.Generic;
 
 namespace Cinematic.Web.Models
 {
@@ -13,9 +9,9 @@ namespace Cinematic.Web.Models
         /// </summary>
         public TicketSellingIndexViewModel()
         {
-            this.AvailableSessions = new List<Session>();
-            this.AvailableSeats = new List<Seat>();
-            this.SelectedSession = new Session();
+            AvailableSessions = new List<Session>();
+            AvailableSeats = new List<Seat>();
+            SelectedSession = new Session();
         }
 
         /// <summary>

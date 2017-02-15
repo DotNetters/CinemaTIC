@@ -124,10 +124,19 @@
     <value>Acciones</value>
   </data>
   <data name="AppSummary" xml:space="preserve">
-    <value>Sistema de venta de entradas.</value>
+    <value>Sistema de venta de entradas para sesiones de cine</value>
   </data>
   <data name="AppTitle" xml:space="preserve">
     <value>Cinematic</value>
+  </data>
+  <data name="AppVendor" xml:space="preserve">
+    <value>DotNetters Zaragoza</value>
+  </data>
+  <data name="AppVendorEMail" xml:space="preserve">
+    <value>contacto@dotnetters.es</value>
+  </data>
+  <data name="AppVendorWebSite" xml:space="preserve">
+    <value>http://dotnetters.es</value>
   </data>
   <data name="AvailableSeats" xml:space="preserve">
     <value>Butacas disponibles</value>
@@ -210,6 +219,9 @@
   <data name="Sessions" xml:space="preserve">
     <value>Sesiones</value>
   </data>
+  <data name="Support" xml:space="preserve">
+    <value>Soporte</value>
+  </data>
   <data name="SureToDelete" xml:space="preserve">
     <value>Va a eliminar el elemento. ¿Está seguro?</value>
   </data>
@@ -224,6 +236,9 @@
   </data>
   <data name="TicketsSelled" xml:space="preserve">
     <value>Venta finalizada</value>
+  </data>
+  <data name="ToggleNavigation" xml:space="preserve">
+    <value>Navegación</value>
   </data>
   <data name="ValueObject_SessionStatus_Cancelled_DisplayName" xml:space="preserve">
     <value>Cancelada</value>

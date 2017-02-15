@@ -1,12 +1,4 @@
-﻿using Cinematic.Domain;
-using Cinematic.Domain.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Threading;
-using System.Globalization;
+﻿using System.Web.Mvc;
 
 namespace Cinematic.Web.Controllers
 {

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3BD970AA-718D-435B-A4A3-B18E50557705}</ProjectGuid>
+    <ProjectGuid>{BE65B5F9-17B7-4148-832E-3C83ECC11BA2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cinematic.DAL</RootNamespace>
-    <AssemblyName>Cinematic.DAL</AssemblyName>
+    <RootNamespace>Cinematic</RootNamespace>
+    <AssemblyName>Cinematic.Core</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>
@@ -19,8 +19,6 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -31,6 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Cinematic.Core.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,16 +38,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Cinematic.Core.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -59,43 +51,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201702111612592_InitialMigration.cs" />
-    <Compile Include="Migrations\201702111612592_InitialMigration.Designer.cs">
-      <DependentUpon>201702111612592_InitialMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Contracts\IBusinessEntity.cs" />
+    <Compile Include="Contracts\IDataContext.cs" />
+    <Compile Include="Contracts\IPriceManager.cs" />
+    <Compile Include="Contracts\ISeatManager.cs" />
+    <Compile Include="Contracts\ISessionManager.cs" />
+    <Compile Include="Contracts\ITicketManager.cs" />
+    <Compile Include="PriceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CinematicEFDataContext.cs" />
+    <Compile Include="Seat.cs" />
+    <Compile Include="SeatManager.cs" />
+    <Compile Include="Session.cs" />
+    <Compile Include="SessionManager.cs" />
+    <Compile Include="SessionStatus.cs" />
+    <Compile Include="Ticket.cs" />
+    <Compile Include="TicketManager.cs" />
+    <Compile Include="CinematicException.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="SessionsSeed.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702111612592_InitialMigration.resx">
-      <DependentUpon>201702111612592_InitialMigration.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Cinematic.Core\Cinematic.Core.csproj">
-      <Project>{be65b5f9-17b7-4148-832e-3c83ecc11ba2}</Project>
-      <Name>Cinematic.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Cinematic.Infrastructure\Cinematic.Infrastructure.csproj">
       <Project>{11be2362-fab5-41b7-a26c-6d07ffdfcc4f}</Project>
       <Name>Cinematic.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cinematic.Resources\Cinematic.Resources.csproj">
+      <Project>{7cc1edb7-9375-4ca6-b2be-12232a8bc2de}</Project>
+      <Name>Cinematic.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Habilite la restauración del paquete NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

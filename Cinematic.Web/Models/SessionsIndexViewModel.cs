@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Cinematic.Domain;
+﻿using System.Collections.Generic;
 
 namespace Cinematic.Web.Models
 {
