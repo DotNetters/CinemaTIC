@@ -30,7 +30,7 @@ namespace Cinematic.DAL
         /// </summary>
         static CinematicEFDataContext()
         {
-            Cinematic.QueryableExtensions.Includer = new DbIncluder();
+            QueryableExtensions.Includer = new DbIncluder();
         }
 
         /// <summary>
