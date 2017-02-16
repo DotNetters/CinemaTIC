@@ -27,14 +27,14 @@ namespace Cinematic.Web.Controllers
             {
                 viewModel.HasPrevious = page.Value > 1 ? true : false;
                 viewModel.HasNext = page.Value < viewModel.PageCount ? true : false;
-                viewModel.Sessions = _dataContext.Sessions.Skip((page.Value - 1) * 10).Take(10);
+                viewModel.Sessions = _dataContext.Sessions.OrderByDescending(s => s.TimeAndDate).Skip((page.Value - 1) * 10).Take(10);
                 viewModel.Page = page.Value;
             }
             else
             {
                 viewModel.HasPrevious = false;
                 viewModel.HasNext = viewModel.PageCount > 1 ? true : false;
-                viewModel.Sessions = _dataContext.Sessions.Skip(0).Take(10);
+                viewModel.Sessions = _dataContext.Sessions.OrderByDescending(s => s.TimeAndDate).Skip(0).Take(10);
                 viewModel.Page = 1;
             }
 
