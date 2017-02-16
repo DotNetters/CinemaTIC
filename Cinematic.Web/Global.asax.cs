@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Cinematic.Web.IoC;
 
 namespace Cinematic.Web
 {
@@ -20,9 +19,6 @@ namespace Cinematic.Web
             
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new RazorViewEngine());
-
-            UnityDependencyResolver depResolver = new UnityDependencyResolver();
-            DependencyResolver.SetResolver(depResolver);
         }
     }
 }
