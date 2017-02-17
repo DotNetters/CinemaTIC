@@ -14,6 +14,10 @@ namespace Cinematic.Web
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/globalize").Include(
+                        "~/Scripts/globalize/globalize.js",
+                        "~/Scripts/globalize/cultures/globalize.culture.es-ES.js"));
+
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -27,6 +31,9 @@ namespace Cinematic.Web
 
             bundles.Add(new ScriptBundle("~/bundles/site").Include(
                         "~/Scripts/site.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/siteval").Include(
+                        "~/Scripts/site.validate.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

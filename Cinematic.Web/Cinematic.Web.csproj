@@ -279,6 +279,7 @@
     <Content Include="Scripts\cldr\supplemental.js" />
     <Content Include="Scripts\cldr\unresolved.js" />
     <Content Include="Scripts\globalize.js" />
+    <Content Include="Scripts\globalize\cultures\globalize.culture.es-ES.js" />
     <Content Include="Scripts\globalize\currency.js" />
     <Content Include="Scripts\globalize\date.js" />
     <Content Include="Scripts\globalize\message.js" />
@@ -307,6 +308,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\site.js" />
+    <Content Include="Scripts\site.validate.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Sessions\Edit.cshtml">
       <SubType>Code</SubType>
