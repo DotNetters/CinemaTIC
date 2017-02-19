@@ -133,6 +133,15 @@ namespace Cinematic.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a La sesión {0} no se puede eliminar por que ya se han vendido entradas.
+        /// </summary>
+        public static string SessionCannotBeRemovedBecauseItHasSoldTickets {
+            get {
+                return ResourceManager.GetString("SessionCannotBeRemovedBecauseItHasSoldTickets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a La sesión ha sido cancelada. No hay entradas a la venta.
         /// </summary>
         public static string SessionIsCancelledNoTicketsAvailable {

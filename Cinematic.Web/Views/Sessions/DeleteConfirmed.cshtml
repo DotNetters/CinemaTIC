@@ -1,0 +1,41 @@
+﻿@model SessionsDeleteConfirmedViewModel
+
+@{
+    ViewBag.Title = Literals.DeleteSession;
+}
+
+<h2>@Literals.DeleteSession</h2>
+<hr />
+
+<div class="alert alert-danger">@Model.Exception.Message</div>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Session.TimeAndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Session.TimeAndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Session.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Session.Status)
+        </dd>
+
+    </dl>
+
+    <hr />
+    <div class="form-actions no-color">
+        @Html.ActionLink(Literals.Back, "Index", null, new { @class = "btn btn-sm btn-default" })
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+            $(function () { setActiveMenuItem("SessionsMenuItem"); });
+    </script>
+}

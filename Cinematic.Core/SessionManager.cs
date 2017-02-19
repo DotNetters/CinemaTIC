@@ -1,4 +1,5 @@
 ﻿using Cinematic.Contracts;
+using Cinematic.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,6 +64,29 @@ namespace Cinematic
                 throw new ArgumentNullException("session");
 
             session.Status = SessionStatus.Cancelled;
+
+            return session;
+        }
+
+        /// <inheritdoc />
+        public Session RemoveSession(Session session)
+        {
+            if (session == null)
+                throw new ArgumentNullException("session");
+
+            var q = _dataContext.Tickets.AsQueryable().Include(t => t.Seat).Where(t => t.Seat.Session.Id == session.Id);
+
+            var hasTickets = q.FirstOrDefault() != null;
+
+            if (hasTickets)
+            {
+                throw new CinematicException(
+                    string.Format(Messages.SessionCannotBeRemovedBecauseItHasSoldTickets, session.TimeAndDate.ToString("dd/MM/yyyy HH:mm")));
+            }
+            else
+            {
+                _dataContext.Remove(session);
+            }
 
             return session;
         }

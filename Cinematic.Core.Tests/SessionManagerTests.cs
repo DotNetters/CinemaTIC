@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using Cinematic.Contracts;
+using Cinematic.Resources;
 
 namespace Cinematic.Tests
 {
@@ -277,6 +278,80 @@ namespace Cinematic.Tests
 
             //Assert
             action.ShouldThrow<ArgumentNullException>().WithMessage(new ArgumentNullException("session").Message);
+        }
+
+        #endregion
+
+        #region RemoveSession tests
+
+        [Test]
+        [TestCase(SessionStatus.Open)]
+        [TestCase(SessionStatus.Closed)]
+        [TestCase(SessionStatus.Cancelled)]
+        public void SessionManager_RemoveSession_Right(SessionStatus status)
+        {
+            //Arrange
+            var sessionToDelete = _sessions.Where(s => s.Status == status).FirstOrDefault();
+            var expectedSessions = _sessions.Where(s => s.Id != sessionToDelete.Id).ToArray();
+
+            var dataContextMock = new Mock<IDataContext>();
+
+            dataContextMock.Setup(m => m.Sessions).Returns(_sessions);
+
+            dataContextMock.Setup(m => m.Remove(It.IsAny<Session>()))
+                .Callback<Session>((s) => { _sessions.Remove(s); });
+
+            var target = new SessionManager(dataContextMock.Object);
+
+            //Act
+            target.RemoveSession(sessionToDelete);
+
+            //Assert
+            _sessions.ShouldAllBeEquivalentTo(expectedSessions);
+        }
+
+        [Test]
+        public void SessionManager_RemoveSession_NullSessionParam()
+        {
+            //Arrange
+            var target = new SessionManager(Mock.Of<IDataContext>());
+
+            //Act
+            Action action = () =>
+            {
+                target.RemoveSession(null);
+            };
+
+            //Assert
+            action.ShouldThrow<ArgumentNullException>().WithMessage(new ArgumentNullException("session").Message);
+        }
+
+        [Test]
+        [TestCase(SessionStatus.Open)]
+        [TestCase(SessionStatus.Closed)]
+        [TestCase(SessionStatus.Cancelled)]
+        public void SessionManager_RemoveSession_HasTickets(SessionStatus status)
+        {
+            //Arrange
+            var sessionToDelete = _sessions.Where(s => s.Status == status).FirstOrDefault();
+            var expectedSessions = _sessions.Where(s => s.Id != sessionToDelete.Id).ToArray();
+
+            var dataContextMock = new Mock<IDataContext>();
+
+            dataContextMock.Setup(m => m.Sessions).Returns(_sessions);
+
+            dataContextMock.Setup(m => m.Tickets).Returns(new Ticket[] { new Ticket() { Seat = new Seat() { Session = sessionToDelete } } });
+
+            var target = new SessionManager(dataContextMock.Object);
+
+            //Act
+            Action action = () =>
+            {
+                target.RemoveSession(sessionToDelete);
+            };
+
+            //Assert
+            action.ShouldThrow<CinematicException>().WithMessage(string.Format(Messages.SessionCannotBeRemovedBecauseItHasSoldTickets, sessionToDelete.TimeAndDate.ToString("dd/MM/yyyy HH:mm")));
         }
 
         #endregion

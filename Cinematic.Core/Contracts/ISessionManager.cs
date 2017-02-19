@@ -37,5 +37,13 @@ namespace Cinematic.Contracts
         /// <param name="session"><see cref="Session">Sesión</see> a cancelar</param>
         /// <returns><see cref="Session">Sesión</see> cancelada</returns>
         Session CancelSession(Session session);
+
+        /// <summary>
+        /// Elimina una sesión del sistema 
+        /// (si no tiene ventas de tickets asociadas, si no, lanza una excepción)
+        /// </summary>
+        /// <param name="session">Sesión a eliminar</param>
+        /// <returns>Sesión eliminada o no</returns>
+        Session RemoveSession(Session session);
     }
 }

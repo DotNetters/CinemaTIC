@@ -10,31 +10,39 @@ namespace Cinematic.Web.Controllers
 {
     public class SessionsController : Controller
     {
-        IDataContext _dataContext = null;
+        IDataContext DataContext { get; set; } = null;
 
-        public SessionsController(IDataContext dataContext)
+        ISessionManager SessionManager { get; set; } = null;
+
+        public SessionsController(IDataContext dataContext, ISessionManager sessionManager)
         {
-            _dataContext = dataContext;
+            if (dataContext == null)
+                throw new ArgumentNullException("dataContext");
+            if (sessionManager == null)
+                throw new ArgumentNullException("sessionManager");
+
+            DataContext = dataContext;
+            SessionManager = sessionManager;
         }
 
         // GET: Sessions
         public ActionResult Index(int? page)
         {
             var viewModel = new SessionsIndexViewModel();
-            viewModel.PageCount = Math.Ceiling((double)_dataContext.Sessions.Count() / 10);
+            viewModel.PageCount = Math.Ceiling((double)DataContext.Sessions.Count() / 10);
 
             if (page.HasValue)
             {
                 viewModel.HasPrevious = page.Value > 1 ? true : false;
                 viewModel.HasNext = page.Value < viewModel.PageCount ? true : false;
-                viewModel.Sessions = _dataContext.Sessions.OrderByDescending(s => s.TimeAndDate).Skip((page.Value - 1) * 10).Take(10);
+                viewModel.Sessions = DataContext.Sessions.OrderByDescending(s => s.TimeAndDate).Skip((page.Value - 1) * 10).Take(10);
                 viewModel.Page = page.Value;
             }
             else
             {
                 viewModel.HasPrevious = false;
                 viewModel.HasNext = viewModel.PageCount > 1 ? true : false;
-                viewModel.Sessions = _dataContext.Sessions.OrderByDescending(s => s.TimeAndDate).Skip(0).Take(10);
+                viewModel.Sessions = DataContext.Sessions.OrderByDescending(s => s.TimeAndDate).Skip(0).Take(10);
                 viewModel.Page = 1;
             }
 
@@ -49,7 +57,7 @@ namespace Cinematic.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Session session = _dataContext.Find<Session>(id);
+            Session session = DataContext.Find<Session>(id);
             if (session == null)
             {
                 return HttpNotFound();
@@ -72,8 +80,8 @@ namespace Cinematic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _dataContext.Add(session);
-                _dataContext.SaveChanges();
+                DataContext.Add(session);
+                DataContext.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -87,7 +95,7 @@ namespace Cinematic.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Session session = _dataContext.Find<Session>(id);
+            Session session = DataContext.Find<Session>(id);
             if (session == null)
             {
                 return HttpNotFound();
@@ -104,8 +112,8 @@ namespace Cinematic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _dataContext.Update(session);
-                _dataContext.SaveChanges();
+                DataContext.Update(session);
+                DataContext.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(session);
@@ -118,7 +126,7 @@ namespace Cinematic.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Session session = _dataContext.Find<Session>(id);
+            Session session = DataContext.Find<Session>(id);
             if (session == null)
             {
                 return HttpNotFound();
@@ -131,17 +139,29 @@ namespace Cinematic.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Session session = _dataContext.Find<Session>(id);
-            _dataContext.Remove(session);
-            _dataContext.SaveChanges();
-            return RedirectToAction("Index");
+            Session session = DataContext.Find<Session>(id);
+            if (session == null)
+            {
+                return HttpNotFound();
+            }
+            try
+            {
+                SessionManager.RemoveSession(session);
+                DataContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (CinematicException ex)
+            {
+                var viewModel = new SessionsDeleteConfirmedViewModel() { Session = session, Exception = ex };
+                return View("DeleteConfirmed", viewModel);
+            }
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                _dataContext.Dispose();
+                DataContext.Dispose();
             }
             base.Dispose(disposing);
         }

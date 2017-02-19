@@ -141,6 +141,9 @@
   <data name="SellFailed" xml:space="preserve">
     <value>Se ha producido un error, y no se ha podido completar la venta. No se ha reservado ninguna entrada.</value>
   </data>
+  <data name="SessionCannotBeRemovedBecauseItHasSoldTickets" xml:space="preserve">
+    <value>La sesión {0} no se puede eliminar por que ya se han vendido entradas</value>
+  </data>
   <data name="SessionIsCancelledNoTicketsAvailable" xml:space="preserve">
     <value>La sesión ha sido cancelada. No hay entradas a la venta</value>
   </data>

@@ -241,6 +241,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\SessionsDeleteConfirmedViewModel.cs" />
     <Compile Include="Models\SessionsIndexViewModel.cs" />
     <Compile Include="Models\TicketSellingIndexViewModel.cs" />
     <Compile Include="Models\TicketsSoldViewModel.cs" />
@@ -359,6 +360,7 @@
     <Content Include="Views\TicketSelling\_SelectedSession.cshtml" />
     <Content Include="Views\TicketSelling\_BuyTickets.cshtml" />
     <Content Include="Views\TicketSelling\TicketsSold.cshtml" />
+    <Content Include="Views\Sessions\DeleteConfirmed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
