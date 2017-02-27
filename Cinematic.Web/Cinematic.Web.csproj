@@ -242,7 +242,9 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\SessionsDeleteConfirmedViewModel.cs" />
+    <Compile Include="Models\SessionsEditViewModel.cs" />
     <Compile Include="Models\SessionsIndexViewModel.cs" />
+    <Compile Include="Models\SessionsViewModel.cs" />
     <Compile Include="Models\TicketSellingIndexViewModel.cs" />
     <Compile Include="Models\TicketsSoldViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -352,7 +354,6 @@
     <Content Include="Views\Sessions\Delete.cshtml" />
     <Content Include="Views\Sessions\Details.cshtml" />
     <Content Include="Views\Sessions\Index.cshtml" />
-    <Content Include="Views\Sessions\_EditForm.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Enum.cshtml" />
     <Content Include="Views\TicketSelling\Index.cshtml" />
     <Content Include="Views\TicketSelling\_AvailableSessions.cshtml" />
@@ -377,6 +378,10 @@
     <ProjectReference Include="..\Cinematic.DAL\Cinematic.DAL.csproj">
       <Project>{3bd970aa-718d-435b-a4a3-b18e50557705}</Project>
       <Name>Cinematic.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cinematic.Infrastructure\Cinematic.Infrastructure.csproj">
+      <Project>{11be2362-fab5-41b7-a26c-6d07ffdfcc4f}</Project>
+      <Name>Cinematic.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cinematic.Resources\Cinematic.Resources.csproj">
       <Project>{7cc1edb7-9375-4ca6-b2be-12232a8bc2de}</Project>

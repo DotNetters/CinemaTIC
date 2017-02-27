@@ -52,3 +52,7 @@ body > .container {
   padding-right: 15px;
   padding-left: 15px;
 }
+
+.control-display {
+    padding-top: 7px;
+}

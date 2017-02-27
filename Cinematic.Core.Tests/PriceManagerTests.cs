@@ -1,15 +1,11 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FluentAssertions;
-using Moq;
 
 namespace Cinematic.Tests
 {
     [TestFixture]
+    [TestOf(typeof(PriceManager))]
     [Category("Cinematic.PriceManager")]
     public class PriceManagerTests
     {
@@ -36,7 +32,7 @@ namespace Cinematic.Tests
             //Arrange
             var target = new PriceManager();
 
-            var session = new Session() { Id = 0, Status = SessionStatus.Open, TimeAndDate = DateTime.Now };
+            var session = new Session() { Id = 0, TimeAndDate = DateTime.Now };
 
             //Act
             var result = target.GetTicketPrice(session, 1, 1);

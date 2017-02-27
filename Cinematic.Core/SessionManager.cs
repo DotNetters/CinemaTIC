@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 namespace Cinematic
 {
     /// <summary>
-    /// Servicio que gestiona las sesiones para las que se ponen <see cref="Ticket">tickets</see> a la venta
+    /// Servicio que gestiona las sesiones para las que se ponen <see cref="Ticket">entradas</see> a la venta
     /// </summary>
     public class SessionManager : ISessionManager
     {
-        IDataContext _dataContext = null;
+
+        IDataContext DataContext { get; set; } = null;
 
         /// <summary>
         /// Inicializa una instancia de <see cref="SessionManager"/>
@@ -24,13 +25,36 @@ namespace Cinematic
             if (dataContext == null)
                 throw new ArgumentNullException("dataContext");
 
-            _dataContext = dataContext;
+            DataContext = dataContext;
         }
 
         /// <inheritdoc />
         public IEnumerable<Session> GetAvailableSessions()
         {
-            return _dataContext.Sessions.Where(s => s.Status == SessionStatus.Open);
+            return DataContext.Sessions.Where(s => s.Status == SessionStatus.Open);
+        }
+
+        /// <inheritdoc />
+        public Session Get(int id)
+        {
+            return DataContext.Find<Session>(id);
+        }
+
+        /// <inheritdoc />
+        public IEnumerable<Session> GetAll()
+        {
+            return DataContext.Sessions;
+        }
+
+        /// <inheritdoc />
+        public SessionsPageInfo GetAll(int page, int sessionsPerPage)
+        {
+            var pageCount = Math.Ceiling((double)DataContext.Sessions.Count() / sessionsPerPage);
+            var sessions = DataContext.Sessions.Skip((page - 1) * 10).Take(10);
+
+            var pageInfo = new SessionsPageInfo(pageCount, sessions);
+
+            return pageInfo;
         }
 
         /// <inheritdoc />
@@ -38,45 +62,41 @@ namespace Cinematic
         {
             var session = new Session();
 
-            session.Status = SessionStatus.Open;
+            CheckDupedSession(timeAndDate);
+
             session.TimeAndDate = timeAndDate;
 
-            _dataContext.Add(session);
+            DataContext.Add(session);
 
             return session;
         }
 
         /// <inheritdoc />
-        public Session CloseSession(Session session)
+        public Session UpdateSessionTimeAndDate(int sessionId, DateTime timeAndDate)
         {
-            if (session == null)
-                throw new ArgumentNullException("session");
+            var session = DataContext.Find<Session>(sessionId);
 
-            session.Status = SessionStatus.Closed;
+            if (session == null)
+            {
+                throw new CinematicException(Messages.SessionNotAvailableOrNotFound);
+            }
+
+            CheckDupedSession(timeAndDate, sessionId);
+
+            session.TimeAndDate = timeAndDate;
 
             return session;
         }
 
         /// <inheritdoc />
-        public Session CancelSession(Session session)
+        public Session RemoveSession(int sessionId)
         {
+            var session = DataContext.Find<Session>(sessionId);
+
             if (session == null)
-                throw new ArgumentNullException("session");
+                throw new CinematicException(Messages.SessionNotAvailableOrNotFound);
 
-            session.Status = SessionStatus.Cancelled;
-
-            return session;
-        }
-
-        /// <inheritdoc />
-        public Session RemoveSession(Session session)
-        {
-            if (session == null)
-                throw new ArgumentNullException("session");
-
-            var q = _dataContext.Tickets.AsQueryable().Include(t => t.Seat).Where(t => t.Seat.Session.Id == session.Id);
-
-            var hasTickets = q.FirstOrDefault() != null;
+            var hasTickets = DataContext.Tickets.AsQueryable().Include(t => t.Seat).Where(t => t.Seat.Session.Id == session.Id).Count() > 0;
 
             if (hasTickets)
             {
@@ -85,10 +105,34 @@ namespace Cinematic
             }
             else
             {
-                _dataContext.Remove(session);
+                DataContext.Remove(session);
             }
 
             return session;
+        }
+
+        private void CheckDupedSession(DateTime timeAndDate, int? selfId = null)
+        {
+            var q = DataContext.Sessions.Where(s => s.TimeAndDate == timeAndDate);
+
+            if (selfId.HasValue)
+            {
+                q = q.Where(s => s.Id != selfId.Value);
+            }
+
+            var dupedSession = q.Count();
+
+            if (dupedSession > 0)
+            {
+                if (!selfId.HasValue)
+                {
+                    throw new CinematicException(Messages.SessionCannotBeCreatedBecauseIsDupe);
+                }
+                else
+                {
+                    throw new CinematicException(Messages.SessionCannotBeUpdatedBecauseDateIsDupe);
+                }
+            }
         }
     }
 }

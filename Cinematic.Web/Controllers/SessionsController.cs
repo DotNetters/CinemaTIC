@@ -28,36 +28,29 @@ namespace Cinematic.Web.Controllers
         // GET: Sessions
         public ActionResult Index(int? page)
         {
-            var viewModel = new SessionsIndexViewModel();
-            viewModel.PageCount = Math.Ceiling((double)DataContext.Sessions.Count() / 10);
+            if (!page.HasValue)
+                page = 1;
 
-            if (page.HasValue)
-            {
-                viewModel.HasPrevious = page.Value > 1 ? true : false;
-                viewModel.HasNext = page.Value < viewModel.PageCount ? true : false;
-                viewModel.Sessions = DataContext.Sessions.OrderByDescending(s => s.TimeAndDate).Skip((page.Value - 1) * 10).Take(10);
-                viewModel.Page = page.Value;
-            }
-            else
-            {
-                viewModel.HasPrevious = false;
-                viewModel.HasNext = viewModel.PageCount > 1 ? true : false;
-                viewModel.Sessions = DataContext.Sessions.OrderByDescending(s => s.TimeAndDate).Skip(0).Take(10);
-                viewModel.Page = 1;
-            }
+            var viewModel = new SessionsIndexViewModel();
+            var sessionsPageInfo = SessionManager.GetAll(page.Value, 10);
+
+            viewModel.PageCount = sessionsPageInfo.PageCount;
+            viewModel.HasPrevious = page.Value > 1 ? true : false;
+            viewModel.HasNext = page.Value < viewModel.PageCount ? true : false;
+            viewModel.Sessions = sessionsPageInfo.SessionsPage;
+            viewModel.Page = page.Value;
 
             return View(viewModel);
-
         }
 
         // GET: Sessions/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult((int)HttpStatusCode.BadRequest);
             }
-            Session session = DataContext.Find<Session>(id);
+            Session session = SessionManager.Get(id.Value);
             if (session == null)
             {
                 return HttpNotFound();
@@ -68,7 +61,8 @@ namespace Cinematic.Web.Controllers
         // GET: Sessions/Create
         public ActionResult Create()
         {
-            return View();
+            var viewModel = new SessionsViewModel();
+            return View(viewModel);
         }
 
         // POST: Sessions/Create
@@ -76,31 +70,42 @@ namespace Cinematic.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TimeAndDate,Status")] Session session)
+        public ActionResult Create(SessionsViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                DataContext.Add(session);
-                DataContext.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    SessionManager.CreateSession(viewModel.TimeAndDate);
+                    DataContext.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (CinematicException ex)
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                    return View(viewModel);
+                }
             }
 
-            return View(session);
+            return View(viewModel);
         }
 
         // GET: Sessions/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult((int)HttpStatusCode.BadRequest);
             }
-            Session session = DataContext.Find<Session>(id);
+            Session session = SessionManager.Get(id.Value);
             if (session == null)
             {
                 return HttpNotFound();
             }
-            return View(session);
+
+            var viewModel = new SessionsEditViewModel(session);
+
+            return View(viewModel);
         }
 
         // POST: Sessions/Edit/5
@@ -108,25 +113,73 @@ namespace Cinematic.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TimeAndDate,Status")] Session session)
+        public ActionResult Edit(SessionsEditViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                DataContext.Update(session);
-                DataContext.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    SessionManager.UpdateSessionTimeAndDate(viewModel.SessionId, viewModel.TimeAndDate);
+                    DataContext.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (CinematicException ex)
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                    return View(viewModel);
+                }
             }
-            return View(session);
+            return View(viewModel);
+        }
+
+        public ActionResult NextStatus(int? id, string targetStatus, SessionsEditViewModel viewModel)
+        {
+            if (!id.HasValue)
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.BadRequest);
+            }
+            Session session = SessionManager.Get(id.Value);
+            if (session == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                try
+                {
+                    switch (targetStatus)
+                    {
+                        case "Open":
+                            session.Reopen();
+                            break;
+                        case "Closed":
+                            session.Close();
+                            break;
+                        case "Cancelled":
+                            session.Cancel();
+                            break;
+                        default:
+                            break;
+                    }
+                    DataContext.SaveChanges();
+                    return RedirectToAction("Edit", new { id = id });
+                }
+                catch (CinematicException ex)
+                {
+                    ModelState.AddModelError(string.Empty, ex);
+                    return View("Edit", viewModel);
+                }
+            }
         }
 
         // GET: Sessions/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult((int)HttpStatusCode.BadRequest);
             }
-            Session session = DataContext.Find<Session>(id);
+            Session session = SessionManager.Get(id.Value);
             if (session == null)
             {
                 return HttpNotFound();
@@ -137,16 +190,20 @@ namespace Cinematic.Web.Controllers
         // POST: Sessions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? id)
         {
-            Session session = DataContext.Find<Session>(id);
+            if (!id.HasValue)
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.BadRequest);
+            }
+            Session session = SessionManager.Get(id.Value);
             if (session == null)
             {
                 return HttpNotFound();
             }
             try
             {
-                SessionManager.RemoveSession(session);
+                SessionManager.RemoveSession(id.Value);
                 DataContext.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -155,15 +212,6 @@ namespace Cinematic.Web.Controllers
                 var viewModel = new SessionsDeleteConfirmedViewModel() { Session = session, Exception = ex };
                 return View("DeleteConfirmed", viewModel);
             }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                DataContext.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

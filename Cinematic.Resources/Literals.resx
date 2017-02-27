@@ -150,6 +150,15 @@
   <data name="BuyError" xml:space="preserve">
     <value>Error en la compra</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="ChangeSessionStatus" xml:space="preserve">
+    <value>Cambiar estado</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Cerrar</value>
+  </data>
   <data name="Contact" xml:space="preserve">
     <value>Contacto</value>
   </data>
@@ -194,6 +203,9 @@
   </data>
   <data name="NoData" xml:space="preserve">
     <value>-- No hay datos que mostrar --</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Abrir</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Guardar</value>

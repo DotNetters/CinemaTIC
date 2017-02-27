@@ -9,6 +9,7 @@ using Cinematic.Infrastructure;
 namespace Cinematic.Tests
 {
     [TestFixture]
+    [TestOf(typeof(TicketManager))]
     [Category("Cinematic.TicketManager")]
     public class TicketManagerTests
     {
@@ -43,7 +44,7 @@ namespace Cinematic.Tests
 
             SystemTime.Now = () => fixedDate;
 
-            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26), Status = SessionStatus.Open };
+            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26) };
             var seat = new Seat() { Row = Session.NUMBER_OF_ROWS, SeatNumber = Session.NUMBER_OF_SEATS, Session = session, Reserved = false };
             var target = new TicketManager(seatManagerMock.Object, priceManagerMock.Object, dataContextMock.Object);
 
@@ -64,7 +65,8 @@ namespace Cinematic.Tests
             var priceManager = Mock.Of<IPriceManager>();
             var dataContext = Mock.Of<IDataContext>();
 
-            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26), Status = SessionStatus.Closed };
+            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26) };
+            session.Close();
             var seat = new Seat() { Row = Session.NUMBER_OF_ROWS, SeatNumber = Session.NUMBER_OF_SEATS, Session = session, Reserved = false };
             var target = new TicketManager(seatManager, priceManager, dataContext);
 
@@ -83,7 +85,8 @@ namespace Cinematic.Tests
             var priceManager = Mock.Of<IPriceManager>();
             var dataContext = Mock.Of<IDataContext>();
 
-            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26), Status = SessionStatus.Cancelled };
+            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26) };
+            session.Cancel();
             var seat = new Seat() { Row = Session.NUMBER_OF_ROWS, SeatNumber = Session.NUMBER_OF_SEATS, Session = session, Reserved = false };
             var target = new TicketManager(seatManager, priceManager, dataContext);
 
@@ -151,7 +154,7 @@ namespace Cinematic.Tests
                 t.Id = 1;
             });
 
-            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26), Status = SessionStatus.Open };
+            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26) };
             var seat = new Seat() { Row = Session.NUMBER_OF_ROWS, SeatNumber = Session.NUMBER_OF_SEATS, Session = session, Reserved = true };
             var ticket = new Ticket() { Price = 7, Seat = seat, TimeAndDate = DateTime.Now };
 
@@ -173,7 +176,8 @@ namespace Cinematic.Tests
             var priceManager = Mock.Of<IPriceManager>();
             var dataContext = Mock.Of<IDataContext>();
 
-            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26), Status = SessionStatus.Closed };
+            var session = new Session() { TimeAndDate = new DateTime(2014, 10, 26) };
+            session.Close();
             var seat = new Seat() { Row = Session.NUMBER_OF_ROWS, SeatNumber = Session.NUMBER_OF_SEATS, Session = session, Reserved = true };
             var ticket = new Ticket() { Price = 7, Seat = seat, TimeAndDate = DateTime.Now };
 

@@ -11,6 +11,7 @@ using Cinematic.Resources;
 namespace Cinematic.Tests
 {
     [TestFixture]
+    [TestOf(typeof(SeatManager))]
     [Category("Cinematic.SeatManager")]
     public class SeatManagerTests
     {
@@ -28,24 +29,23 @@ namespace Cinematic.Tests
             _closedSession = new Session()
             {
                 Id = 1,
-                Status = SessionStatus.Closed,
                 // Lunes 27 de octubre de 2014, 16:00
                 TimeAndDate = new DateTime(2014, 10, 27, 16, 00, 0)
             };
+            _closedSession.Close();
             _openSession = new Session()
             {
                 Id = 2,
-                Status = SessionStatus.Open,
                 // Lunes 27 de octubre de 2014, 18:30
                 TimeAndDate = new DateTime(2014, 10, 27, 18, 30, 0)
             };
             _cancelledSession = new Session()
             {
                 Id = 3,
-                Status = SessionStatus.Cancelled,
                 // Lunes 27 de octubre de 2014, 21:00
                 TimeAndDate = new DateTime(2014, 10, 27, 21, 00, 0)
             };
+            _cancelledSession.Cancel();
 
             _seats = new List<Seat>()
             {

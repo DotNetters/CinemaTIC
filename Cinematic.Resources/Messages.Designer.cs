@@ -61,6 +61,42 @@ namespace Cinematic.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No se puede cancelar la sesión, porque su estado actual es CERRADA o CANCELADA.
+        /// </summary>
+        public static string CannotCancelSessionBecauseIsClosedOrCancelled {
+            get {
+                return ResourceManager.GetString("CannotCancelSessionBecauseIsClosedOrCancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se puede cerrar la sesión, porque su estado actual es CANCELADA o CERRADA.
+        /// </summary>
+        public static string CannotCloseSessionBecauseIsCancelledOrClosed {
+            get {
+                return ResourceManager.GetString("CannotCloseSessionBecauseIsCancelledOrClosed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se puede reabrir la sesión, porque ya está ABIERTA.
+        /// </summary>
+        public static string CannotReopenSessionBecauseIsOpen {
+            get {
+                return ResourceManager.GetString("CannotReopenSessionBecauseIsOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Se han producido errores durante la ejecución del proceso.
+        /// </summary>
+        public static string ErrorsOcurredDuringProcessExecution {
+            get {
+                return ResourceManager.GetString("ErrorsOcurredDuringProcessExecution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a El número de la fila es mayor que el máximo permitido.
         /// </summary>
         public static string RowNumberIsAboveMaxAllowed {
@@ -133,11 +169,29 @@ namespace Cinematic.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a La sesión {0} no se puede eliminar por que ya se han vendido entradas.
+        ///   Busca una cadena traducida similar a Ya existe una sesión a la misma fecha y hora.
+        /// </summary>
+        public static string SessionCannotBeCreatedBecauseIsDupe {
+            get {
+                return ResourceManager.GetString("SessionCannotBeCreatedBecauseIsDupe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La sesión {0} no se puede eliminar porque ya se han vendido entradas.
         /// </summary>
         public static string SessionCannotBeRemovedBecauseItHasSoldTickets {
             get {
                 return ResourceManager.GetString("SessionCannotBeRemovedBecauseItHasSoldTickets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se puede actualizar la fecha de la sesión porque ya existe otra sesión con la misma fecha.
+        /// </summary>
+        public static string SessionCannotBeUpdatedBecauseDateIsDupe {
+            get {
+                return ResourceManager.GetString("SessionCannotBeUpdatedBecauseDateIsDupe", resourceCulture);
             }
         }
         

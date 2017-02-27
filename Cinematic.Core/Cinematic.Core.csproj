@@ -63,6 +63,7 @@
     <Compile Include="SeatManager.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="SessionManager.cs" />
+    <Compile Include="SessionsPageInfo.cs" />
     <Compile Include="SessionStatus.cs" />
     <Compile Include="Ticket.cs" />
     <Compile Include="TicketManager.cs" />
