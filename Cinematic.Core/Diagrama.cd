@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Cinematic.PriceManager">
+    <Position X="8.75" Y="3" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PriceManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Cinematic.SeatManager">
+    <Position X="0.5" Y="3" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAQAIAAAAAAAEA=</HashCode>
+      <FileName>SeatManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Cinematic.SessionManager">
+    <Position X="6" Y="3" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAABBAAAAAAAEAAAEAAAAAAgAIAgAAAAA=</HashCode>
+      <FileName>SessionManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Cinematic.TicketManager">
+    <Position X="3.25" Y="3" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAgAAAAAAAAIAAAAAIAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>TicketManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Cinematic.Seat">
+    <Position X="19.25" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAgAAQAAAAAAAAAAAAIAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Seat.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Session" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Cinematic.Session">
+    <Position X="22.25" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAEQAAAAAAAAAAAAAEAAAAAAAAAIQAAAICAAAA=</HashCode>
+      <FileName>Session.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Cinematic.Ticket">
+    <Position X="16.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAAAAAAAAAAQAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Ticket.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Seat" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Cinematic.Contracts.ISessionManager">
+    <Position X="6" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABBAAAAAAAAAAAEAAAAAAgAIAgAAAAA=</HashCode>
+      <FileName>Contracts\ISessionManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cinematic.Contracts.ISeatManager">
+    <Position X="3.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAQAIAAAAAAAEA=</HashCode>
+      <FileName>Contracts\ISeatManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cinematic.Contracts.ITicketManager">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Contracts\ITicketManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cinematic.Contracts.IPriceManager">
+    <Position X="8.75" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\IPriceManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Cinematic.SessionStatus">
+    <Position X="25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAIAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>SessionStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

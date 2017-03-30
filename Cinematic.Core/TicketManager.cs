@@ -14,9 +14,9 @@ namespace Cinematic
     /// </summary>
     public class TicketManager : ITicketManager
     {
-        ISeatManager _seatManager = null;
-        IPriceManager _priceManager = null;
-        IDataContext _dataContext = null;
+        ISeatManager SeatManager { get; set; } = null;
+        IPriceManager PriceManager { get; set; } = null;
+        IDataContext DataContext { get; set; } = null;
 
         /// <summary>
         /// Inicializa una intancia de <see cref="TicketManager"/>
@@ -33,9 +33,9 @@ namespace Cinematic
             if (dataContext == null)
                 throw new ArgumentNullException("dataContext");
 
-            _seatManager = seatManager;
-            _priceManager = priceManager;
-            _dataContext = dataContext;
+            SeatManager = seatManager;
+            PriceManager = priceManager;
+            DataContext = dataContext;
         }
 
         /// <inheritdoc />
@@ -53,16 +53,16 @@ namespace Cinematic
             if (seat.Session.Status == SessionStatus.Cancelled)
                 throw new CinematicException(Messages.SessionIsCancelledNoTicketsAvailable);
 
-            var allocatedSeat = _seatManager.AllocateSeat(seat);
+            var allocatedSeat = SeatManager.AllocateSeat(seat);
 
             var newTicket = new Ticket()
             {
-                Price = _priceManager.GetTicketPrice(allocatedSeat.Session, allocatedSeat.Row, allocatedSeat.SeatNumber),
+                Price = PriceManager.GetTicketPrice(allocatedSeat.Session, allocatedSeat.Row, allocatedSeat.SeatNumber),
                 Seat = allocatedSeat,
                 TimeAndDate = SystemTime.Now()
             };
 
-            _dataContext.Add(newTicket);
+            DataContext.Add(newTicket);
 
             return (newTicket);
         }
@@ -82,9 +82,9 @@ namespace Cinematic
             if (ticket.Seat.Session.Status == SessionStatus.Closed)
                 throw new CinematicException(Messages.SessionIsClosedCannotReturnTickets);
 
-            _seatManager.DeallocateSeat(ticket.Seat);
+            SeatManager.DeallocateSeat(ticket.Seat);
 
-            _dataContext.Remove(ticket);
+            DataContext.Remove(ticket);
         }
     }
 }

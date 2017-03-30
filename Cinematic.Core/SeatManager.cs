@@ -13,7 +13,7 @@ namespace Cinematic
     /// </summary>
     public class SeatManager : ISeatManager
     {
-        IDataContext _dataContext = null;
+        IDataContext DataContext { get; set; } = null;
 
         /// <summary>
         /// Inicializa una instancia de <see cref="SeatManager"/>
@@ -23,7 +23,7 @@ namespace Cinematic
             if (dataContext == null)
                 throw new ArgumentNullException("dataContext");
 
-            _dataContext = dataContext;
+            DataContext = dataContext;
         }
 
         /// <inheritdoc />
@@ -44,7 +44,7 @@ namespace Cinematic
             if (seatNumber < 1)
                 throw new CinematicException(Messages.SeatNumberIsBelowMinAllowed);
 
-            var q = from s in _dataContext.Seats
+            var q = from s in DataContext.Seats
                     where
                         s.Row == row &&
                         s.SeatNumber == seatNumber &&
@@ -80,7 +80,7 @@ namespace Cinematic
             if (session.Status == SessionStatus.Cancelled)
                 return retVal;
 
-            var q = from s in _dataContext.Seats.AsQueryable().Include(s => s.Session)
+            var q = from s in DataContext.Seats.AsQueryable().Include(s => s.Session)
                     where s.Session.Id == session.Id
                     select s;
 
@@ -111,7 +111,7 @@ namespace Cinematic
             if (seat == null)
                 throw new ArgumentNullException("seat");
 
-            var reservedSeat = _dataContext.Seats
+            var reservedSeat = DataContext.Seats
                 .Where(s => s.Session == seat.Session)
                 .Where(s => s.Row == seat.Row && s.SeatNumber == seat.SeatNumber).SingleOrDefault();
 
@@ -120,7 +120,7 @@ namespace Cinematic
 
             seat.Reserved = true;
 
-            _dataContext.Add(seat);
+            DataContext.Add(seat);
 
             return (seat);
         }
@@ -131,7 +131,7 @@ namespace Cinematic
             if (seat == null)
                 throw new ArgumentNullException("seat");
 
-            var reservedSeat = _dataContext.Seats
+            var reservedSeat = DataContext.Seats
                 .Where(s => s.Session == seat.Session)
                 .Where(s => s.Row == seat.Row && s.SeatNumber == seat.SeatNumber).SingleOrDefault();
 
@@ -140,7 +140,7 @@ namespace Cinematic
 
             seat.Reserved = false;
 
-            _dataContext.Remove(seat);
+            DataContext.Remove(seat);
 
             return (seat);
         }

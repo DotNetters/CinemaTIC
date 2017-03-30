@@ -50,7 +50,7 @@ namespace Cinematic
         public SessionsPageInfo GetAll(int page, int sessionsPerPage)
         {
             var pageCount = Math.Ceiling((double)DataContext.Sessions.Count() / sessionsPerPage);
-            var sessions = DataContext.Sessions.Skip((page - 1) * 10).Take(10);
+            var sessions = DataContext.Sessions.Skip((page - 1) * sessionsPerPage).Take(sessionsPerPage);
 
             var pageInfo = new SessionsPageInfo(pageCount, sessions);
 

@@ -10,10 +10,10 @@ namespace Cinematic.Web.Controllers
 {
     public class TicketSellingController : Controller
     {
-        ISessionManager _sessionManager = null;
-        ISeatManager _seatManager = null;
-        ITicketManager _ticketManager = null;
-        IDataContext _dataContext = null;
+        ISessionManager SessionManager { get; set; } = null;
+        ISeatManager SeatManager { get; set; } = null;
+        ITicketManager TicketManager { get; set; } = null;
+        IDataContext DataContext { get; set; } = null;
 
         public TicketSellingController(
             ISessionManager sessionManager,
@@ -21,10 +21,19 @@ namespace Cinematic.Web.Controllers
             ITicketManager ticketManager,
             IDataContext dataContext)
         {
-            _sessionManager = sessionManager;
-            _seatManager = seatManager;
-            _ticketManager = ticketManager;
-            _dataContext = dataContext;
+            if (dataContext == null)
+                throw new ArgumentNullException("dataContext");
+            if (sessionManager == null)
+                throw new ArgumentNullException("sessionManager");
+            if (seatManager == null)
+                throw new ArgumentNullException("seatManager");
+            if (ticketManager == null)
+                throw new ArgumentNullException("ticketManager");
+
+            SessionManager = sessionManager;
+            SeatManager = seatManager;
+            TicketManager = ticketManager;
+            DataContext = dataContext;
         }
 
         // GET: TicketSelling
@@ -32,12 +41,12 @@ namespace Cinematic.Web.Controllers
         {
             var viewModel = new TicketSellingIndexViewModel();
 
-            if (_sessionManager.GetAvailableSessions().Count() > 0)
+            if (SessionManager.GetAvailableSessions().Count() > 0)
             {
-                viewModel.AvailableSessions = _sessionManager.GetAvailableSessions();
+                viewModel.AvailableSessions = SessionManager.GetAvailableSessions();
                 if (id.HasValue)
                 {
-                    var selectedSession = _sessionManager.GetAvailableSessions().Where(s => s.Id == id).FirstOrDefault();
+                    var selectedSession = SessionManager.GetAvailableSessions().Where(s => s.Id == id).FirstOrDefault();
                     if (selectedSession != null)
                     {
                         viewModel.SelectedSession = selectedSession;
@@ -55,7 +64,7 @@ namespace Cinematic.Web.Controllers
 
             if (viewModel.SelectedSession != null)
             {
-                viewModel.AvailableSeats = _seatManager.GetAvailableSeats(viewModel.SelectedSession);
+                viewModel.AvailableSeats = SeatManager.GetAvailableSeats(viewModel.SelectedSession);
             }
 
             return View(viewModel);
@@ -69,14 +78,14 @@ namespace Cinematic.Web.Controllers
             {
                 if (!string.IsNullOrWhiteSpace(selectedSeats))
                 {
-                    var session = _sessionManager.GetAvailableSessions().Where(s => s.Id == id).FirstOrDefault();
+                    var session = SessionManager.GetAvailableSessions().Where(s => s.Id == id).FirstOrDefault();
 
                     var seatLocators = GetSeatLocators(selectedSeats);
 
                     foreach (var seatLocator in seatLocators)
                     {
-                        var seat = _seatManager.GetSeat(session, seatLocator.Item1, seatLocator.Item2);
-                        viewModel.Tickets.Add(_ticketManager.SellTicket(seat));
+                        var seat = SeatManager.GetSeat(session, seatLocator.Item1, seatLocator.Item2);
+                        viewModel.Tickets.Add(TicketManager.SellTicket(seat));
                     }
                 }
                 else
@@ -91,7 +100,7 @@ namespace Cinematic.Web.Controllers
 
             if (viewModel.Errors.Count() <= 0)
             {
-                _dataContext.SaveChanges();
+                DataContext.SaveChanges();
             }
 
             return View(viewModel);
